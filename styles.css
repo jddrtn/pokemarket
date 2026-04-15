@@ -1,0 +1,74 @@
+/* Body tyling */
+body {
+  background-color: #ffffff;
+  color: #1f2933;
+  font-family: 'Nunito', sans-serif;
+}
+
+/* Extra spacing for hero */
+.py-lg-6 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+/* Hero background */
+.hero-section {
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fc 100%);
+}
+
+/* Featured panel styling */
+.featured-panel {
+  min-height: 100%;
+}
+
+/* Placeholder block for card images */
+.card-image-placeholder {
+  height: 250px;
+  background: linear-gradient(135deg, #e9ecef, #dee2e6);
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Set cards */
+.set-card {
+  background-color: #ffffff;
+}
+
+/* nav links */
+.nav-link {
+  font-weight: 500;
+}
+
+/* Makes active page clearer */
+.nav-link.active {
+  font-weight: 700;
+}
+
+
+/* Responsive tweak to card images */
+@media (max-width: 767.98px) {
+  .card-image-placeholder {
+    height: 220px;
+  }
+}
+
+/* Limit hero text width so it doesnt stretch too wide */
+.hero-text {
+  max-width: 650px;
+}
+
+/* Search form width control */
+.search-form {
+  max-width: 600px;
+}
+
+.search-form button {
+  border-radius: 0 0.8rem 0.8rem 0;
+}
+
+.search-form {
+  max-width: 600px;
+}
+
+.hero-text {
+  max-width: 650px;
+}
