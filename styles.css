@@ -1,4 +1,4 @@
-/* Body tyling */
+/* Body styling */
 body {
   background-color: #ffffff;
   color: #1f2933;
@@ -71,4 +71,69 @@ body {
 
 .hero-text {
   max-width: 650px;
+}
+
+
+/* cards and sets page */
+
+/* Page result card for sets */
+.set-result-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.set-result-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.08);
+}
+
+/* Set symbol image */
+.set-symbol {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Set logo wrapper */
+.set-logo-wrap {
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+}
+
+/* Set logo image */
+.set-logo {
+  max-height: 80px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Pokemon card image on cards page */
+.pokemon-card-image {
+  width: 100%;
+  height: 320px;
+  object-fit: contain;
+  background: linear-gradient(135deg, #f8f9fa, #eef1f4);
+  padding: 1rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* control spacing on page filter rows */
+.form-control,
+.form-select {
+  border-radius: 0.9rem;
+}
+
+/* section cards */
+.card,
+.set-result-card,
+.set-card {
+  background-color: #ffffff;
+}
+
+/* Mobile tweak for card images */
+@media (max-width: 767.98px) {
+  .pokemon-card-image {
+    height: 280px;
+  }
 }
