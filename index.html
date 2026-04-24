@@ -109,64 +109,44 @@
 </section>
 
     <!-- Trending cards section -->
-    <section class="py-5" aria-labelledby="trending-cards-heading">
-      <div class="container">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-2">
-          <div>
-            <h2 id="trending-cards-heading" class="h2 mb-1">Trending Cards</h2>
-            <p class="text-secondary mb-0">Cards that are hot right now</p>
-          </div>
-          <a href="#" class="fw-semibold link-dark">View all cards</a>
-        </div>
-
-        <div class="row g-4">
-          <div class="col-sm-6 col-xl-3">
-            <article class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-              <div class="card-image-placeholder" aria-hidden="true"></div>
-              <div class="card-body">
-                <h3 class="h5 card-title">Pikachu ex</h3>
-                <p class="card-text text-secondary mb-2">market price</p>
-                <p class="fw-bold fs-5 mb-0">£24.99</p>
-              </div>
-            </article>
-          </div>
-
-          <div class="col-sm-6 col-xl-3">
-            <article class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-              <div class="card-image-placeholder" aria-hidden="true"></div>
-              <div class="card-body">
-                <h3 class="h5 card-title">Charizard ex</h3>
-                <p class="card-text text-secondary mb-2">market price</p>
-                <p class="fw-bold fs-5 mb-0">£89.50</p>
-              </div>
-            </article>
-          </div>
-
-          <div class="col-sm-6 col-xl-3">
-            <article class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-              <div class="card-image-placeholder" aria-hidden="true"></div>
-              <div class="card-body">
-                <h3 class="h5 card-title">Mewtwo VSTAR</h3>
-                <p class="card-text text-secondary mb-2">market price</p>
-                <p class="fw-bold fs-5 mb-0">£31.20</p>
-              </div>
-            </article>
-          </div>
-
-          <div class="col-sm-6 col-xl-3">
-            <article class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-              <div class="card-image-placeholder" aria-hidden="true"></div>
-              <div class="card-body">
-                <h3 class="h5 card-title">Eevee GX</h3>
-                <p class="card-text text-secondary mb-2">market price</p>
-                <p class="fw-bold fs-5 mb-0">£18.75</p>
-              </div>
-            </article>
-          </div>
-        </div>
+<section class="py-5" aria-labelledby="trending-cards-heading">
+  <div class="container">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-2">
+      <div>
+        <h2 id="trending-cards-heading" class="h2 mb-1">Featured Cards</h2>
+<p class="text-secondary mb-0">Popular cards selected by PokéMarket</p>
       </div>
-    </section>
+      <a href="cards.html" class="fw-semibold link-dark">View all cards</a>
+    </div>
 
+    <!-- Loading state -->
+    <div id="trending-loading" class="text-center py-5">
+      <div class="spinner-border" role="status" aria-hidden="true"></div>
+      <p class="mt-3 text-secondary mb-0">Loading featured cards...</p>
+    </div>
+
+    <!-- Error state -->
+    <div id="trending-error" class="alert alert-danger d-none" role="alert">
+      Unable to load trending cards right now.
+    </div>
+
+    <!-- Carousel -->
+<div id="trendingCardsCarousel" class="d-none">
+  <div class="featured-carousel-wrapper">
+    <button id="featured-prev" class="featured-carousel-btn" type="button" aria-label="Previous card">
+      &larr;
+    </button>
+
+    <div id="trending-cards-carousel-inner" class="featured-carousel-track">
+      <!-- JS inserts cards here -->
+    </div>
+
+    <button id="featured-next" class="featured-carousel-btn" type="button" aria-label="Next card">
+      &rarr;
+    </button>
+  </div>
+</div>
+</section>
     <!-- Recent sets section -->
     <section class="py-5 bg-white border-top border-bottom" aria-labelledby="recent-sets-heading">
       <div class="container">
@@ -219,5 +199,7 @@
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
     crossorigin="anonymous"
   ></script>
+
+  <script src="index.js"></script>
 </body>
 </html>

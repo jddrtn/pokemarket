@@ -11,14 +11,39 @@ body {
   padding-bottom: 6rem;
 }
 
-/* Hero background */
+/* Hero section */
 .hero-section {
-  background: linear-gradient(180deg, #ffffff 0%, #f8f9fc 100%);
+  background: #ffffff;
 }
 
-/* Featured panel styling */
-.featured-panel {
-  min-height: 100%;
+/* Limit hero text width */
+.hero-text {
+  max-width: 650px;
+}
+
+/* Search form */
+.search-form {
+  max-width: 600px;
+}
+
+.search-form button {
+  border-radius: 0 0.8rem 0.8rem 0;
+}
+
+/* Navigation */
+.nav-link {
+  font-weight: 500;
+}
+
+.nav-link.active {
+  font-weight: 700;
+}
+
+/* General cards */
+.card,
+.set-card,
+.set-result-card {
+  background-color: #ffffff;
 }
 
 /* Placeholder block for card images */
@@ -28,55 +53,47 @@ body {
   border-bottom: 1px solid #dee2e6;
 }
 
-/* Set cards */
-.set-card {
-  background-color: #ffffff;
+/* Featured cards carousel */
+.featured-carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  padding: 0 3.5rem;
 }
 
-/* nav links */
-.nav-link {
-  font-weight: 500;
+.featured-carousel-track {
+  display: flex;
+  gap: 1.5rem;
+  transition: transform 0.35s ease;
 }
 
-/* Makes active page clearer */
-.nav-link.active {
-  font-weight: 700;
+.featured-card-item {
+  flex: 0 0 calc(25% - 1.125rem);
 }
 
-
-/* Responsive tweak to card images */
-@media (max-width: 767.98px) {
-  .card-image-placeholder {
-    height: 220px;
-  }
+.featured-carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: none;
+  border-radius: 50%;
+  background-color: #111827;
+  color: #ffffff;
+  font-size: 1.25rem;
 }
 
-/* Limit hero text width so it doesnt stretch too wide */
-.hero-text {
-  max-width: 650px;
+/* Carousel button positions */
+#featured-prev {
+  left: 0;
 }
 
-/* Search form width control */
-.search-form {
-  max-width: 600px;
+#featured-next {
+  right: 0;
 }
 
-.search-form button {
-  border-radius: 0 0.8rem 0.8rem 0;
-}
-
-.search-form {
-  max-width: 600px;
-}
-
-.hero-text {
-  max-width: 650px;
-}
-
-
-/* cards and sets page */
-
-/* Page result card for sets */
+/* Set result cards */
 .set-result-card {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -108,7 +125,7 @@ body {
   object-fit: contain;
 }
 
-/* Pokemon card image on cards page */
+/* Pokemon card image */
 .pokemon-card-image {
   width: 100%;
   height: 320px;
@@ -118,55 +135,10 @@ body {
   border-bottom: 1px solid #dee2e6;
 }
 
-/* control spacing on page filter rows */
+/* Form controls */
 .form-control,
 .form-select {
   border-radius: 0.9rem;
-}
-
-/* section cards */
-.card,
-.set-result-card,
-.set-card {
-  background-color: #ffffff;
-}
-
-/* Mobile tweak for card images */
-@media (max-width: 767.98px) {
-  .pokemon-card-image {
-    height: 280px;
-  }
-}
-
-.card-link-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card-link-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.08);
-}
-
-.single-card-image {
-  width: 100%;
-  max-height: 700px;
-  object-fit: contain;
-  background: linear-gradient(135deg, #f8f9fa, #eef1f4);
-  padding: 1.5rem;
-}
-
-.info-panel {
-  background: #ffffff;
-  border: 1px solid #e9ecef;
-  border-radius: 1rem;
-  padding: 1rem 1.1rem;
-}
-
-.price-panel {
-  background: linear-gradient(180deg, #ffffff 0%, #f8f9fc 100%);
-  border: 1px solid #e9ecef;
-  border-radius: 1rem;
-  padding: 1.25rem;
 }
 
 /* Clickable card hover effect */
@@ -188,7 +160,7 @@ body {
   padding: 1.5rem;
 }
 
-/* Info boxes on card detail page */
+/* Info boxes */
 .info-panel {
   background-color: #ffffff;
   border: 1px solid #e9ecef;
@@ -202,4 +174,32 @@ body {
   border: 1px solid #e9ecef;
   border-radius: 1rem;
   padding: 1.25rem;
+}
+
+/* Tablet styles */
+@media (max-width: 991.98px) {
+  .featured-card-item {
+    flex: 0 0 calc(50% - 0.75rem);
+  }
+}
+
+/* Mobile styles */
+@media (max-width: 767.98px) {
+  .card-image-placeholder {
+    height: 220px;
+  }
+
+  .pokemon-card-image {
+    height: 280px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .featured-carousel-wrapper {
+    padding: 0 3rem;
+  }
+
+  .featured-card-item {
+    flex: 0 0 100%;
+  }
 }
