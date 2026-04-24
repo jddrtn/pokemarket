@@ -168,3 +168,38 @@ body {
   border-radius: 1rem;
   padding: 1.25rem;
 }
+
+/* Clickable card hover effect */
+.card-link-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-link-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.08);
+}
+
+/* Individual card page image */
+.single-card-image {
+  width: 100%;
+  max-height: 700px;
+  object-fit: contain;
+  background: linear-gradient(135deg, #f8f9fa, #eef1f4);
+  padding: 1.5rem;
+}
+
+/* Info boxes on card detail page */
+.info-panel {
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 1rem;
+  padding: 1rem 1.1rem;
+}
+
+/* Price area */
+.price-panel {
+  background: linear-gradient(180deg, #ffffff 0%, #f8f9fc 100%);
+  border: 1px solid #e9ecef;
+  border-radius: 1rem;
+  padding: 1.25rem;
+}
