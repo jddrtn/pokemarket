@@ -23,17 +23,14 @@ let cardSearchTimeout;
 
 // Fetch cards from the API.
 async function fetchCards() {
-  // Show loading.
   cardsLoading.classList.remove('d-none');
   cardsError.classList.add('d-none');
   cardsGrid.innerHTML = '';
 
-  // Read filters.
   const cardSearch = cardSearchInput.value.trim();
   const setFilter = cardSetFilterInput.value.trim();
   const sortValue = cardSortSelect.value;
 
-  // Build Lucene-like query string.
   const queryParts = [];
 
   if (cardSearch) {
@@ -46,13 +43,11 @@ async function fetchCards() {
 
   const q = queryParts.join(' ');
 
-  // Build URL.
   const url = new URL(CARDS_API_URL);
   url.searchParams.set('page', currentCardPage);
   url.searchParams.set('pageSize', cardPageSize);
   url.searchParams.set('orderBy', sortValue);
 
-  // Request only fields we need for performance.
   url.searchParams.set(
     'select',
     'id,name,images,set,rarity,number,tcgplayer'
@@ -78,6 +73,7 @@ async function fetchCards() {
 
     cardsCount.textContent = `${result.totalCount} card${result.totalCount === 1 ? '' : 's'} found`;
     cardsPageInfo.textContent = `Page ${result.page} of ${totalCardPages}`;
+
     prevCardsButton.disabled = currentCardPage === 1;
     nextCardsButton.disabled = currentCardPage === totalCardPages;
   } catch (error) {
@@ -107,30 +103,35 @@ function renderCards(cards) {
 
     return `
       <div class="col-sm-6 col-xl-3">
-        <article class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
-          <img
-            src="${card.images?.small || ''}"
-            alt="${card.name}"
-            class="pokemon-card-image"
-          >
+        <a href="card.html?id=${encodeURIComponent(card.id)}" class="text-decoration-none text-dark">
+          <article class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-link-card">
+            <img
+              src="${card.images?.small || ''}"
+              alt="${card.name}"
+              class="pokemon-card-image"
+            >
 
-          <div class="card-body">
-            <p class="text-secondary small mb-2">${card.set?.name || 'Unknown set'}</p>
-            <h3 class="h5 card-title mb-2">${card.name}</h3>
+            <div class="card-body">
+              <p class="text-secondary small mb-2">${card.set?.name || 'Unknown set'}</p>
 
-            <p class="text-secondary mb-1">
-              ${card.rarity || 'Rarity unavailable'}
-            </p>
+              <h3 class="h5 card-title mb-2">
+                ${card.name}
+              </h3>
 
-            <p class="text-secondary mb-2">
-              Card #${card.number || 'N/A'}
-            </p>
+              <p class="text-secondary mb-1">
+                ${card.rarity || 'Rarity unavailable'}
+              </p>
 
-            <p class="fw-bold fs-5 mb-0">
-              ${marketPrice}
-            </p>
-          </div>
-        </article>
+              <p class="text-secondary mb-2">
+                Card #${card.number || 'N/A'}
+              </p>
+
+              <p class="fw-bold fs-5 mb-0">
+                ${marketPrice}
+              </p>
+            </div>
+          </article>
+        </a>
       </div>
     `;
   }).join('');
@@ -144,7 +145,6 @@ function getMarketPrice(tcgplayerData) {
 
   const priceGroups = Object.values(tcgplayerData.prices);
 
-  // Look for the first price group with a market value.
   for (const group of priceGroups) {
     if (group && typeof group.market === 'number') {
       return `$${group.market.toFixed(2)}`;
@@ -189,5 +189,5 @@ cardSortSelect.addEventListener('change', () => {
   fetchCards();
 });
 
-
+// Initial page load.
 fetchCards();
