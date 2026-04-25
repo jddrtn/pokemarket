@@ -1,5 +1,3 @@
-// card.js
-
 const CARD_API_BASE = 'https://api.pokemontcg.io/v2/cards';
 
 const cardLoading = document.getElementById('card-loading');
@@ -7,7 +5,6 @@ const cardError = document.getElementById('card-error');
 const cardDetail = document.getElementById('card-detail');
 
 // Get the card ID from the URL.
-// Example: card.html?id=sv1-1
 function getCardIdFromUrl() {
   const params = new URLSearchParams(window.location.search);
   return params.get('id');
@@ -160,7 +157,7 @@ function renderCard(card) {
 
         <div class="d-flex flex-wrap gap-2">
           <a href="cards.html" class="btn btn-dark">Browse More Cards</a>
-          <button class="btn btn-outline-dark" type="button" disabled>
+          <button class="btn btn-dark" type="button">
             Add to Watchlist
           </button>
         </div>
