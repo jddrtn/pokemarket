@@ -25,59 +25,60 @@
   <header class="border-bottom bg-white">
     <div class="container">
       <nav class="navbar navbar-expand-lg py-3" aria-label="Main navigation">
-        <a class="navbar-brand fw-bold fs-3" href="index.html">PokéMarket</a>
+  <a class="navbar-brand fw-bold fs-3 me-lg-4" href="index.html">PokéMarket</a>
 
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#mainNav"
-          aria-controls="mainNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#mainNav"
+    aria-controls="mainNav"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="mainNav">
+
+    <!-- Search form -->
+    <form class="nav-search-form my-3 my-lg-0 me-lg-4 flex-grow-1" role="search" aria-label="Search Pokémon cards">
+      <label for="card-search" class="visually-hidden">Search Pokémon cards</label>
+
+      <div class="input-group">
+        <input
+          type="search"
+          id="card-search"
+          class="form-control"
+          placeholder="Search Pokémon cards..."
+          aria-describedby="search-button"
         >
-          <span class="navbar-toggler-icon"></span>
+
+        <button class="btn btn-dark" type="submit" id="search-button">
+          Search
         </button>
+      </div>
+    </form>
 
-                <!-- Search form -->
-        <form class="search-form mx-auto mb-4" role="search" aria-label="Search Pokémon cards">
-          <label for="card-search" class="visually-hidden">Search Pokémon cards</label>
-
-          <div class="input-group input-group-lg">
-            <input
-              type="search"
-              id="card-search"
-              class="form-control"
-              placeholder="Search Pokémon cards..."
-              aria-describedby="search-button"
-            >
-
-            <button class="btn btn-dark" type="submit" id="search-button">
-              Search
-            </button>
-          </div>
-        </form>
-
-        <div class="collapse navbar-collapse" id="mainNav">
-          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-            <li class="nav-item">
-              <a class="nav-link active" href="index.html" aria-current="page">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="sets.html">Sets</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="cards.html">Cards</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Watchlist</a>
-            </li>
-            <li class="nav-item">
-              <a class="btn btn-dark ms-lg-2" href="#">Sign In</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+      <li class="nav-item">
+        <a class="nav-link active" href="index.html" aria-current="page">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="sets.html">Sets</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="cards.html">Cards</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Watchlist</a>
+      </li>
+      <li class="nav-item">
+        <a class="btn btn-dark ms-lg-2" href="#">Sign In</a>
+      </li>
+    </ul>
+  </div>
+</nav>
     </div>
   </header>
 
@@ -101,7 +102,7 @@
         <!-- CTA buttons -->
         <div class="d-flex justify-content-center flex-wrap gap-2">
           <a href="cards.html" class="btn btn-dark btn-lg">Browse Cards</a>
-          <a href="sets.html" class="btn btn-outline-dark btn-lg">View Sets</a>
+          <a href="sets.html" class="btn btn-dark btn-lg">View Sets</a>
         </div>
 
       </div>

@@ -22,13 +22,26 @@ body {
 }
 
 /* Search form */
-.search-form {
-  max-width: 600px;
+/* Navbar search */
+.nav-search-form {
+  max-width: 520px;
 }
 
-.search-form button {
-  border-radius: 0 0.8rem 0.8rem 0;
+.nav-search-form .form-control {
+  min-height: 42px;
 }
+
+.nav-search-form .btn {
+  border-radius: 0 0.9rem 0.9rem 0;
+}
+
+@media (min-width: 992px) {
+  .nav-search-form {
+    max-width: none;
+  }
+}
+
+
 
 /* Navigation */
 .nav-link {
