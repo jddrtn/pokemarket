@@ -1,26 +1,29 @@
-// index.js
-
+// API endpoints
 const FEATURED_CARDS_API_URL = 'https://api.pokemontcg.io/v2/cards';
 const EXCHANGE_RATE_API_URL = 'https://api.frankfurter.dev/v2/rates?base=USD&quotes=GBP';
 
+// DOM elements
 const featuredLoading = document.getElementById('trending-loading');
 const featuredError = document.getElementById('trending-error');
 const featuredCarousel = document.getElementById('trendingCardsCarousel');
 const featuredTrack = document.getElementById('trending-cards-carousel-inner');
+
 const featuredPrevButton = document.getElementById('featured-prev');
 const featuredNextButton = document.getElementById('featured-next');
 
 const gbpButton = document.getElementById('currency-gbp');
 const usdButton = document.getElementById('currency-usd');
 
+// State
 let featuredCards = [];
 let currentFeaturedIndex = 0;
 let selectedCurrency = 'GBP';
 let usdToGbpRate = 0.79;
 
+// Query for featured cards
 const featuredQuery = '(name:Charizard OR name:Pikachu OR name:Mewtwo OR name:Eevee OR name:Gengar OR name:Rayquaza OR name:Lugia OR name:Umbreon)';
 
-// Fetch live USD to GBP exchange rate.
+// Fetch USD → GBP exchange rate
 async function fetchExchangeRate() {
   try {
     const response = await fetch(EXCHANGE_RATE_API_URL);
@@ -39,7 +42,7 @@ async function fetchExchangeRate() {
   }
 }
 
-// Fetch featured cards from the Pokemon TCG API.
+// Fetch featured cards from API
 async function fetchFeaturedCards() {
   try {
     featuredLoading.classList.remove('d-none');
@@ -62,11 +65,13 @@ async function fetchFeaturedCards() {
 
     const result = await response.json();
 
+    // Keep only cards with price data and limit to 8
     featuredCards = (result.data || [])
       .filter(card => hasPriceData(card.tcgplayer))
       .slice(0, 8);
 
     renderFeaturedCards();
+
   } catch (error) {
     console.error(error);
     featuredError.textContent = 'Unable to load featured cards right now.';
@@ -76,7 +81,7 @@ async function fetchFeaturedCards() {
   }
 }
 
-// Render carousel once cards have loaded.
+// Render carousel after data loads
 function renderFeaturedCards() {
   if (!featuredCards.length) {
     featuredError.textContent = 'No featured cards with prices were found.';
@@ -86,18 +91,19 @@ function renderFeaturedCards() {
 
   currentFeaturedIndex = 0;
   updateCarouselCards();
-
   featuredCarousel.classList.remove('d-none');
 }
 
-// Updates the visible cards.
+// Update visible cards in carousel
 function updateCarouselCards() {
+  if (!featuredCards.length) return;
+
   const visibleCards = getVisibleCardCount();
   const cardsToShow = [];
 
   for (let i = 0; i < visibleCards; i++) {
-    const cardIndex = (currentFeaturedIndex + i) % featuredCards.length;
-    cardsToShow.push(featuredCards[cardIndex]);
+    const index = (currentFeaturedIndex + i) % featuredCards.length;
+    cardsToShow.push(featuredCards[index]);
   }
 
   featuredTrack.innerHTML = cardsToShow
@@ -105,13 +111,13 @@ function updateCarouselCards() {
     .join('');
 }
 
-// Next card button.
+// Move forward one card
 featuredNextButton.addEventListener('click', () => {
   currentFeaturedIndex = (currentFeaturedIndex + 1) % featuredCards.length;
   updateCarouselCards();
 });
 
-// Previous card button.
+// Move backward one card
 featuredPrevButton.addEventListener('click', () => {
   currentFeaturedIndex =
     (currentFeaturedIndex - 1 + featuredCards.length) % featuredCards.length;
@@ -119,80 +125,54 @@ featuredPrevButton.addEventListener('click', () => {
   updateCarouselCards();
 });
 
-// Re-render visible cards when screen size changes.
+// Recalculate layout on resize
 window.addEventListener('resize', updateCarouselCards);
 
-// Currency toggle: GBP.
+// Currency toggle: GBP
 gbpButton.addEventListener('click', () => {
   selectedCurrency = 'GBP';
 
-  gbpButton.classList.remove('btn-outline-dark');
-  gbpButton.classList.add('btn-dark');
-
-  usdButton.classList.remove('btn-dark');
-  usdButton.classList.add('btn-outline-dark');
+  gbpButton.classList.replace('btn-outline-dark', 'btn-dark');
+  usdButton.classList.replace('btn-dark', 'btn-outline-dark');
 
   updateCarouselCards();
 });
 
-// Currency toggle: USD.
+// Currency toggle: USD
 usdButton.addEventListener('click', () => {
   selectedCurrency = 'USD';
 
-  usdButton.classList.remove('btn-outline-dark');
-  usdButton.classList.add('btn-dark');
-
-  gbpButton.classList.remove('btn-dark');
-  gbpButton.classList.add('btn-outline-dark');
+  usdButton.classList.replace('btn-outline-dark', 'btn-dark');
+  gbpButton.classList.replace('btn-dark', 'btn-outline-dark');
 
   updateCarouselCards();
 });
 
-// Desktop shows 4, tablet shows 2, mobile shows 1.
+// Determine how many cards to show based on screen size
 function getVisibleCardCount() {
-  if (window.innerWidth < 576) {
-    return 1;
-  }
-
-  if (window.innerWidth < 992) {
-    return 2;
-  }
-
+  if (window.innerWidth < 576) return 1;
+  if (window.innerWidth < 992) return 2;
   return 4;
 }
 
-// Create one featured card.
+// Create HTML for a single card
 function createFeaturedCardHtml(card) {
-  const marketPrice = getMarketPrice(card.tcgplayer);
+  const price = getMarketPrice(card.tcgplayer);
 
   return `
     <div class="featured-card-item">
       <a href="card.html?id=${encodeURIComponent(card.id)}" class="text-decoration-none text-dark">
         <article class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-link-card">
-          <img
-            src="${card.images?.small || ''}"
-            alt="${card.name}"
-            class="pokemon-card-image"
-          >
+          <img src="${card.images?.small || ''}" alt="${card.name}" class="pokemon-card-image">
 
           <div class="card-body">
             <p class="text-secondary small mb-2">${card.set?.name || 'Unknown set'}</p>
+            <h3 class="h5 card-title mb-2">${card.name}</h3>
 
-            <h3 class="h5 card-title mb-2">
-              ${card.name}
-            </h3>
+            <p class="text-secondary mb-1">${card.rarity || 'Rarity unavailable'}</p>
+            <p class="text-secondary mb-2">Card #${card.number || 'N/A'}</p>
 
-            <p class="text-secondary mb-1">
-              ${card.rarity || 'Rarity unavailable'}
-            </p>
-
-            <p class="text-secondary mb-2">
-              Card #${card.number || 'N/A'}
-            </p>
-
-            <p class="fw-bold fs-5 mb-0">
-              ${marketPrice}
-            </p>
+            <p class="fw-bold fs-5 mb-0">${price}</p>
           </div>
         </article>
       </a>
@@ -200,80 +180,65 @@ function createFeaturedCardHtml(card) {
   `;
 }
 
-// Check if a card has any usable price data.
+// Check if card has any usable price
 function hasPriceData(tcgplayerData) {
-  if (!tcgplayerData || !tcgplayerData.prices) {
-    return false;
-  }
+  if (!tcgplayerData || !tcgplayerData.prices) return false;
 
-  const priceGroups = Object.values(tcgplayerData.prices);
-
-  return priceGroups.some(group => {
-    return group &&
-      (
-        typeof group.market === 'number' ||
-        typeof group.mid === 'number' ||
-        typeof group.low === 'number' ||
-        typeof group.high === 'number'
-      );
-  });
+  return Object.values(tcgplayerData.prices).some(group =>
+    group && (group.market || group.mid || group.low || group.high)
+  );
 }
 
-// Get price and convert it depending on selected currency.
+// Get formatted price depending on selected currency
 function getMarketPrice(tcgplayerData) {
   if (!tcgplayerData || !tcgplayerData.prices) {
     return 'Price unavailable';
   }
 
-  const priceGroups = Object.values(tcgplayerData.prices);
-
-  for (const group of priceGroups) {
+  for (const group of Object.values(tcgplayerData.prices)) {
     if (!group) continue;
 
-    const value =
-      group.market ??
-      group.mid ??
-      group.low ??
-      group.high;
+    const value = group.market ?? group.mid ?? group.low ?? group.high;
 
     if (typeof value === 'number') {
-      if (selectedCurrency === 'GBP') {
-        return formatCurrency(value * usdToGbpRate, 'GBP');
-      }
-
-      return formatCurrency(value, 'USD');
+      return selectedCurrency === 'GBP'
+        ? formatCurrency(value * usdToGbpRate, 'GBP')
+        : formatCurrency(value, 'USD');
     }
   }
 
   return 'Price unavailable';
 }
 
-// Format currency properly.
+// Format currency display
 function formatCurrency(value, currency) {
-  return new Intl.NumberFormat(currency === 'GBP' ? 'en-GB' : 'en-US', {
-    style: 'currency',
-    currency: currency
-  }).format(value);
+  return new Intl.NumberFormat(
+    currency === 'GBP' ? 'en-GB' : 'en-US',
+    { style: 'currency', currency }
+  ).format(value);
 }
 
-// Home page search sends users to cards page.
-const homeSearchForm = document.querySelector('.search-form');
-const homeSearchInput = document.getElementById('card-search');
+// Navbar search redirects to cards page
+function setupNavbarSearch() {
+  const form = document.querySelector('.nav-search-form');
+  const input = document.getElementById('card-search');
 
-homeSearchForm.addEventListener('submit', event => {
-  event.preventDefault();
+  if (!form || !input) return;
 
-  const searchValue = homeSearchInput.value.trim();
+  form.addEventListener('submit', event => {
+    event.preventDefault();
 
-  if (searchValue) {
-    window.location.href = `cards.html?search=${encodeURIComponent(searchValue)}`;
-  } else {
-    window.location.href = 'cards.html';
-  }
-});
+    const value = input.value.trim();
 
-// Start homepage.
+    window.location.href = value
+      ? `cards.html?search=${encodeURIComponent(value)}`
+      : 'cards.html';
+  });
+}
+
+// Initialise homepage
 async function initHomePage() {
+  setupNavbarSearch();
   await fetchExchangeRate();
   await fetchFeaturedCards();
 }

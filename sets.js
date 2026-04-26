@@ -1,12 +1,12 @@
-// Base API URL for Pokémon TCG sets.
+// API endpoint
 const SETS_API_URL = 'https://api.pokemontcg.io/v2/sets';
 
-// Track the current page state.
+// Pagination state
 let currentSetPage = 1;
 const setPageSize = 12;
 let totalSetPages = 1;
 
-// Grab page elements once.
+// DOM elements
 const setsGrid = document.getElementById('sets-grid');
 const setsLoading = document.getElementById('sets-loading');
 const setsError = document.getElementById('sets-error');
@@ -17,33 +17,25 @@ const nextSetsButton = document.getElementById('next-sets');
 const setSearchInput = document.getElementById('set-search');
 const setSortSelect = document.getElementById('set-sort');
 
-// debounce timer for search.
 let setSearchTimeout;
 
-// Fetch sets from the API.
+// Fetch sets from API
 async function fetchSets() {
-  // Show loading state.
   setsLoading.classList.remove('d-none');
   setsError.classList.add('d-none');
   setsGrid.innerHTML = '';
 
-  // Read current filters.
   const searchValue = setSearchInput.value.trim();
   const sortValue = setSortSelect.value;
 
-  let q = '';
-  if (searchValue) {
-    q = `name:*${searchValue}* OR series:*${searchValue}*`;
-  }
-
-
   const url = new URL(SETS_API_URL);
+
   url.searchParams.set('page', currentSetPage);
   url.searchParams.set('pageSize', setPageSize);
   url.searchParams.set('orderBy', sortValue);
 
-  if (q) {
-    url.searchParams.set('q', q);
+  if (searchValue) {
+    url.searchParams.set('q', `name:*${searchValue}* OR series:*${searchValue}*`);
   }
 
   try {
@@ -56,18 +48,17 @@ async function fetchSets() {
     const result = await response.json();
     const sets = result.data || [];
 
-    // Calculate pagination
     totalSetPages = Math.ceil(result.totalCount / result.pageSize);
 
-    // Render cards.
     renderSets(sets);
 
-    // Update labels and controls.
     setsCount.textContent = `${result.totalCount} set${result.totalCount === 1 ? '' : 's'} found`;
     setsPageInfo.textContent = `Page ${result.page} of ${totalSetPages}`;
+
     prevSetsButton.disabled = currentSetPage === 1;
     nextSetsButton.disabled = currentSetPage === totalSetPages;
   } catch (error) {
+    console.error(error);
     setsError.classList.remove('d-none');
     setsCount.textContent = 'Could not load sets';
     setsPageInfo.textContent = `Page ${currentSetPage}`;
@@ -76,7 +67,7 @@ async function fetchSets() {
   }
 }
 
-// Render set cards.
+// Render set grid
 function renderSets(sets) {
   if (!sets.length) {
     setsGrid.innerHTML = `
@@ -94,11 +85,8 @@ function renderSets(sets) {
       <div class="col-sm-6 col-xl-4">
         <article class="set-result-card h-100 border rounded-4 p-4 shadow-sm bg-white">
           <div class="d-flex align-items-center gap-3 mb-3">
-            <img
-              src="${set.images?.symbol || ''}"
-              alt="${set.name} symbol"
-              class="set-symbol"
-            >
+            <img src="${set.images?.symbol || ''}" alt="${set.name} symbol" class="set-symbol">
+
             <div>
               <p class="text-secondary small mb-1">${set.series || 'Unknown series'}</p>
               <h3 class="h5 mb-0">${set.name}</h3>
@@ -106,11 +94,7 @@ function renderSets(sets) {
           </div>
 
           <div class="set-logo-wrap mb-3">
-            <img
-              src="${set.images?.logo || ''}"
-              alt="${set.name} logo"
-              class="set-logo img-fluid"
-            >
+            <img src="${set.images?.logo || ''}" alt="${set.name} logo" class="set-logo img-fluid">
           </div>
 
           <dl class="row small mb-0">
@@ -132,19 +116,21 @@ function renderSets(sets) {
   }).join('');
 }
 
-// Format API dates
+// Format API date for UK display
 function formatDate(dateString) {
   if (!dateString) {
     return 'Unknown';
   }
 
   const parts = dateString.split('/');
+
   if (parts.length !== 3) {
     return dateString;
   }
 
   const [year, month, day] = parts;
   const date = new Date(`${year}-${month}-${day}`);
+
   return date.toLocaleDateString('en-GB', {
     day: 'numeric',
     month: 'long',
@@ -152,7 +138,7 @@ function formatDate(dateString) {
   });
 }
 
-// Previous page button.
+// Move to previous page
 prevSetsButton.addEventListener('click', () => {
   if (currentSetPage > 1) {
     currentSetPage--;
@@ -160,7 +146,7 @@ prevSetsButton.addEventListener('click', () => {
   }
 });
 
-// Next page button.
+// Move to next page
 nextSetsButton.addEventListener('click', () => {
   if (currentSetPage < totalSetPages) {
     currentSetPage++;
@@ -168,7 +154,7 @@ nextSetsButton.addEventListener('click', () => {
   }
 });
 
-// Search sets with debounce.
+// Search sets after user stops typing
 setSearchInput.addEventListener('input', () => {
   clearTimeout(setSearchTimeout);
 
@@ -178,11 +164,30 @@ setSearchInput.addEventListener('input', () => {
   }, 400);
 });
 
-// Sort sets.
+// Sort sets
 setSortSelect.addEventListener('change', () => {
   currentSetPage = 1;
   fetchSets();
 });
 
+// Navbar search redirects to cards page
+function setupNavbarSearch() {
+  const form = document.querySelector('.nav-search-form');
+  const input = document.getElementById('card-search');
 
+  if (!form || !input) return;
+
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+
+    const value = input.value.trim();
+
+    window.location.href = value
+      ? `cards.html?search=${encodeURIComponent(value)}`
+      : 'cards.html';
+  });
+}
+
+// Initialise sets page
+setupNavbarSearch();
 fetchSets();
