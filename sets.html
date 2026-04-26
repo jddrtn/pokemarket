@@ -6,24 +6,22 @@
   <title>PokéMarket | Sets</title>
   <meta name="description" content="Browse Pokémon card sets on PokéMarket.">
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;0,300;0,400;0,700;0,900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
-  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-  <!-- Header -->
   <header class="border-bottom bg-white">
     <div class="container">
       <nav class="navbar navbar-expand-lg py-3" aria-label="Main navigation">
-        <a class="navbar-brand fw-bold fs-3" href="index.html">PokéMarket</a>
+        <a class="navbar-brand fw-bold fs-3 me-lg-4" href="index.html">PokéMarket</a>
 
         <button
           class="navbar-toggler"
@@ -38,6 +36,24 @@
         </button>
 
         <div class="collapse navbar-collapse" id="mainNav">
+          <form class="nav-search-form my-3 my-lg-0 me-lg-4 flex-grow-1" role="search" aria-label="Search Pokémon cards">
+            <label for="card-search" class="visually-hidden">Search Pokémon cards</label>
+
+            <div class="input-group">
+              <input
+                type="search"
+                id="card-search"
+                class="form-control"
+                placeholder="Search Pokémon cards..."
+                aria-describedby="search-button"
+              >
+
+              <button class="btn btn-dark" type="submit" id="search-button">
+                Search
+              </button>
+            </div>
+          </form>
+
           <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
             <li class="nav-item">
               <a class="nav-link" href="index.html">Home</a>
@@ -60,31 +76,39 @@
     </div>
   </header>
 
-  <!-- Main -->
   <main id="main-content">
-    <!-- Page intro -->
-    <section class="hero-section py-5 text-center">
+
+    <section class="hero-section py-5 py-lg-6 text-center">
       <div class="container">
-        <h1 class="display-6 fw-bold mb-3">Browse Pokémon Card Sets</h1>
+        <h1 class="display-5 fw-bold mb-3">Browse Pokémon Sets</h1>
+
         <p class="lead text-secondary mb-4 mx-auto hero-text">
-          Explore set logos, release dates, card totals and series information.
+          Explore Pokémon TCG sets, release dates and card totals.
         </p>
 
-        <!-- Search and sort controls -->
-        <div class="row justify-content-center g-3">
-          <div class="col-12 col-md-6">
-            <label for="set-search" class="visually-hidden">Search sets</label>
+        <div class="d-flex justify-content-center flex-wrap gap-2">
+          <a href="cards.html" class="btn btn-dark btn-lg">Browse Cards</a>
+          <a href="index.html" class="btn btn-outline-dark btn-lg">Back Home</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-4 bg-white border-top border-bottom">
+      <div class="container">
+        <div class="row g-3 align-items-end">
+          <div class="col-12 col-lg-6">
+            <label for="set-search" class="form-label fw-semibold">Search sets</label>
             <input
               type="search"
               id="set-search"
-              class="form-control form-control-lg"
-              placeholder="Search sets by name or series"
+              class="form-control"
+              placeholder="Example: Scarlet & Violet"
             >
           </div>
 
-          <div class="col-12 col-md-3">
-            <label for="set-sort" class="visually-hidden">Sort sets</label>
-            <select id="set-sort" class="form-select form-select-lg">
+          <div class="col-12 col-lg-6">
+            <label for="set-sort" class="form-label fw-semibold">Sort sets</label>
+            <select id="set-sort" class="form-select">
               <option value="-releaseDate">Newest first</option>
               <option value="releaseDate">Oldest first</option>
               <option value="name">Name A-Z</option>
@@ -95,7 +119,6 @@
       </div>
     </section>
 
-    <!-- Sets grid -->
     <section class="py-5" aria-labelledby="sets-heading">
       <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
@@ -105,21 +128,17 @@
           </div>
         </div>
 
-        <!-- Loading state -->
         <div id="sets-loading" class="text-center py-5">
           <div class="spinner-border" role="status" aria-hidden="true"></div>
           <p class="mt-3 text-secondary mb-0">Loading sets...</p>
         </div>
 
-        <!-- Error state -->
         <div id="sets-error" class="alert alert-danger d-none" role="alert">
           Unable to load sets right now.
         </div>
 
-        <!-- Results -->
         <div id="sets-grid" class="row g-4"></div>
 
-        <!-- Pagination -->
         <div class="d-flex justify-content-center gap-2 mt-5">
           <button id="prev-sets" class="btn btn-outline-dark" type="button">Previous</button>
           <span id="sets-page-info" class="align-self-center text-secondary">Page 1</span>
@@ -127,19 +146,16 @@
         </div>
       </div>
     </section>
+
   </main>
 
-  <!-- Footer -->
   <footer class="py-4 bg-white border-top">
     <div class="container">
       <p class="mb-0 text-secondary">&copy; 2026 PokeMarket</p>
     </div>
   </footer>
 
-  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Page JS -->
   <script src="sets.js"></script>
 </body>
 </html>
