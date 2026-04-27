@@ -1,10 +1,35 @@
-// API endpoint
+// API endpoints
 const CARD_API_BASE = 'https://api.pokemontcg.io/v2/cards';
+const EXCHANGE_RATE_API_URL = 'https://api.frankfurter.dev/v2/rates?base=USD&quotes=GBP';
+
+// Currency state
+let selectedCurrency = 'GBP';
+let usdToGbpRate = 0.79;
+let currentCard = null;
 
 // DOM elements
 const cardLoading = document.getElementById('card-loading');
 const cardError = document.getElementById('card-error');
 const cardDetail = document.getElementById('card-detail');
+
+// Fetch live exchange rate
+async function fetchExchangeRate() {
+  try {
+    const response = await fetch(EXCHANGE_RATE_API_URL);
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch exchange rate');
+    }
+
+    const result = await response.json();
+
+    if (result.rates && typeof result.rates.GBP === 'number') {
+      usdToGbpRate = result.rates.GBP;
+    }
+  } catch (error) {
+    console.error('Using fallback exchange rate:', error);
+  }
+}
 
 // Get card ID from URL
 function getCardIdFromUrl() {
@@ -34,7 +59,8 @@ async function fetchCard() {
 
     const result = await response.json();
 
-    renderCard(result.data);
+    currentCard = result.data;
+    renderCard(currentCard);
   } catch (error) {
     console.error(error);
     showError('Could not load this card right now.');
@@ -99,7 +125,23 @@ function renderCard(card) {
         </div>
 
         <div class="price-panel mb-4">
-          <h2 class="h4 mb-3">Market Pricing</h2>
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+            <h2 class="h4 mb-0">Market Pricing</h2>
+
+            <div class="d-flex align-items-center flex-wrap gap-2">
+              <span class="text-secondary small">Currency:</span>
+
+              <div class="btn-group" role="group" aria-label="Currency toggle">
+                <button id="currency-gbp" type="button" class="btn ${selectedCurrency === 'GBP' ? 'btn-dark' : 'btn-outline-dark'} btn-sm">
+                  £ GBP
+                </button>
+
+                <button id="currency-usd" type="button" class="btn ${selectedCurrency === 'USD' ? 'btn-dark' : 'btn-outline-dark'} btn-sm">
+                  $ USD
+                </button>
+              </div>
+            </div>
+          </div>
 
           <div class="row g-3">
             <div class="col-sm-6 col-lg-3">
@@ -132,19 +174,6 @@ function renderCard(card) {
           </div>
         </div>
 
-        <div class="info-panel mb-4">
-          <h2 class="h5 mb-3">Set Details</h2>
-
-          <div class="d-flex align-items-center gap-3">
-            <img src="${card.set?.images?.symbol || ''}" alt="${card.set?.name || 'Set'} symbol" class="set-symbol">
-
-            <div>
-              <p class="fw-semibold mb-1">${card.set?.name || 'Unknown set'}</p>
-              <p class="text-secondary mb-0">${formatDate(card.set?.releaseDate)}</p>
-            </div>
-          </div>
-        </div>
-
         <div class="d-flex flex-wrap gap-2">
           <a href="cards.html" class="btn btn-dark">Browse More Cards</a>
           <button class="btn btn-outline-dark" type="button" disabled>
@@ -156,6 +185,8 @@ function renderCard(card) {
   `;
 
   cardDetail.classList.remove('d-none');
+
+  setupCurrencyToggle();
 }
 
 // Get selected price type
@@ -166,33 +197,21 @@ function getPrice(tcgplayerData, priceType) {
 
   for (const group of Object.values(tcgplayerData.prices)) {
     if (group && typeof group[priceType] === 'number') {
-      return `$${group[priceType].toFixed(2)}`;
+      return selectedCurrency === 'GBP'
+        ? formatCurrency(group[priceType] * usdToGbpRate, 'GBP')
+        : formatCurrency(group[priceType], 'USD');
     }
   }
 
   return 'N/A';
 }
 
-// Format API date for UK display
-function formatDate(dateString) {
-  if (!dateString) {
-    return 'Unknown release date';
-  }
-
-  const parts = dateString.split('/');
-
-  if (parts.length !== 3) {
-    return dateString;
-  }
-
-  const [year, month, day] = parts;
-  const date = new Date(`${year}-${month}-${day}`);
-
-  return date.toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric'
-  });
+// Format currency
+function formatCurrency(value, currency) {
+  return new Intl.NumberFormat(
+    currency === 'GBP' ? 'en-GB' : 'en-US',
+    { style: 'currency', currency }
+  ).format(value);
 }
 
 // Show page error
@@ -201,6 +220,30 @@ function showError(message) {
   cardError.classList.remove('d-none');
   cardLoading.classList.add('d-none');
   cardDetail.classList.add('d-none');
+}
+
+// Set up currency toggle buttons
+function setupCurrencyToggle() {
+  const gbpButton = document.getElementById('currency-gbp');
+  const usdButton = document.getElementById('currency-usd');
+
+  if (!gbpButton || !usdButton) return;
+
+  gbpButton.addEventListener('click', () => {
+    selectedCurrency = 'GBP';
+
+    if (currentCard) {
+      renderCard(currentCard);
+    }
+  });
+
+  usdButton.addEventListener('click', () => {
+    selectedCurrency = 'USD';
+
+    if (currentCard) {
+      renderCard(currentCard);
+    }
+  });
 }
 
 // Navbar search redirects to cards page
@@ -222,5 +265,11 @@ function setupNavbarSearch() {
 }
 
 // Initialise card page
-setupNavbarSearch();
-fetchCard();
+async function initCardPage() {
+  setupNavbarSearch();
+
+  await fetchExchangeRate();
+  await fetchCard();
+}
+
+initCardPage();
