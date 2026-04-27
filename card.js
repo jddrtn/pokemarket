@@ -124,55 +124,55 @@ function renderCard(card) {
           </div>
         </div>
 
-        <div class="price-panel mb-4">
-          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-            <h2 class="h4 mb-0">Market Pricing</h2>
+       <div class="price-panel mb-4">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <h2 class="h4 mb-0">Market Pricing</h2>
 
-            <div class="d-flex align-items-center flex-wrap gap-2">
-              <span class="text-secondary small">Currency:</span>
+    <div class="d-flex align-items-center flex-wrap gap-2">
+      <span class="text-secondary small">Currency:</span>
 
-              <div class="btn-group" role="group" aria-label="Currency toggle">
-                <button id="currency-gbp" type="button" class="btn ${selectedCurrency === 'GBP' ? 'btn-dark' : 'btn-outline-dark'} btn-sm">
-                  £ GBP
-                </button>
+      <div class="btn-group" role="group">
+        <button id="currency-gbp" class="btn ${selectedCurrency === 'GBP' ? 'btn-dark' : 'btn-outline-dark'} btn-sm">
+          £ GBP
+        </button>
 
-                <button id="currency-usd" type="button" class="btn ${selectedCurrency === 'USD' ? 'btn-dark' : 'btn-outline-dark'} btn-sm">
-                  $ USD
-                </button>
-              </div>
-            </div>
-          </div>
+        <button id="currency-usd" class="btn ${selectedCurrency === 'USD' ? 'btn-dark' : 'btn-outline-dark'} btn-sm">
+          $ USD
+        </button>
+      </div>
+    </div>
+  </div>
 
-          <div class="row g-3">
-            <div class="col-sm-6 col-lg-3">
-              <div class="info-panel h-100">
-                <p class="small text-secondary mb-1">Market</p>
-                <p class="fw-bold fs-5 mb-0">${marketPrice}</p>
-              </div>
-            </div>
+  <!-- ⭐ MAIN PRICE -->
+  <div class="mb-4">
+    <p class="text-secondary mb-1">Market Price</p>
+    <p class="fw-bold display-5 mb-0">${marketPrice}</p>
+  </div>
 
-            <div class="col-sm-6 col-lg-3">
-              <div class="info-panel h-100">
-                <p class="small text-secondary mb-1">Low</p>
-                <p class="fw-semibold mb-0">${lowPrice}</p>
-              </div>
-            </div>
+  <!-- Secondary prices -->
+  <div class="row g-3">
+    <div class="col-4">
+      <div class="info-panel text-center">
+        <p class="small text-secondary mb-1">Lowest</p>
+        <p class="fw-semibold mb-0">${lowPrice}</p>
+      </div>
+    </div>
 
-            <div class="col-sm-6 col-lg-3">
-              <div class="info-panel h-100">
-                <p class="small text-secondary mb-1">Mid</p>
-                <p class="fw-semibold mb-0">${midPrice}</p>
-              </div>
-            </div>
+    <div class="col-4">
+      <div class="info-panel text-center">
+        <p class="small text-secondary mb-1">Average</p>
+        <p class="fw-semibold mb-0">${midPrice}</p>
+      </div>
+    </div>
 
-            <div class="col-sm-6 col-lg-3">
-              <div class="info-panel h-100">
-                <p class="small text-secondary mb-1">High</p>
-                <p class="fw-semibold mb-0">${highPrice}</p>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div class="col-4">
+      <div class="info-panel text-center">
+        <p class="small text-secondary mb-1">Highest</p>
+        <p class="fw-semibold mb-0">${highPrice}</p>
+      </div>
+    </div>
+  </div>
+</div>
 
         <div class="d-flex flex-wrap gap-2">
           <a href="cards.html" class="btn btn-dark">Browse More Cards</a>
