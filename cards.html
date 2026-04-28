@@ -3,95 +3,103 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PokéMarket | Cards</title>
+  <title>PokéMarket | Browse Cards</title>
   <meta name="description" content="Browse Pokémon cards and market prices on PokéMarket.">
 
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;0,300;0,400;0,700;0,900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+ 
+  <!-- Font Awesome Icons-->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
+  <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
+  <!-- Site Header -->
   <header class="border-bottom bg-white">
     <div class="container">
       <nav class="navbar navbar-expand-lg py-3" aria-label="Main navigation">
-        <a class="navbar-brand fw-bold fs-3 me-lg-4" href="index.html">PokéMarket</a>
+  <a class="navbar-brand fw-bold fs-3 me-lg-4" href="index.html">PokéMarket</a>
 
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#mainNav"
-          aria-controls="mainNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#mainNav"
+    aria-controls="mainNav"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="mainNav">
+
+    <!-- Search form -->
+    <form class="nav-search-form my-3 my-lg-0 me-lg-4 flex-grow-1" role="search" aria-label="Search Pokémon cards">
+      <label for="card-search" class="visually-hidden">Search Pokémon cards</label>
+
+      <div class="input-group">
+        <input
+          type="search"
+          id="card-search"
+          class="form-control"
+          placeholder="Search Pokémon cards..."
+          aria-describedby="search-button"
         >
-          <span class="navbar-toggler-icon"></span>
+
+        <button class="btn btn-dark" type="submit" id="search-button">
+          Search
         </button>
+      </div>
+    </form>
 
-        <div class="collapse navbar-collapse" id="mainNav">
-          <form class="nav-search-form my-3 my-lg-0 me-lg-4 flex-grow-1" role="search" aria-label="Search Pokémon cards">
-            <label for="card-search" class="visually-hidden">Search Pokémon cards</label>
+    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+  <li class="nav-item">
+    <a class="nav-link" href="index.html" aria-current="page">
+      <i class="fa-solid fa-house me-1"></i> Home
+    </a>
+  </li>
 
-            <div class="input-group">
-              <input
-                type="search"
-                id="card-search"
-                class="form-control"
-                placeholder="Search Pokémon cards..."
-                aria-describedby="search-button"
-              >
+  <li class="nav-item">
+    <a class="nav-link" href="sets.html">
+      <i class="fa-solid fa-layer-group me-1"></i> Sets
+    </a>
+  </li>
 
-              <button class="btn btn-dark" type="submit" id="search-button">
-                Search
-              </button>
-            </div>
-          </form>
+  <li class="nav-item">
+    <a class="nav-link active" href="cards.html">
+      <i class="fa-solid fa-clone me-1"></i> Cards
+    </a>
+  </li>
 
-          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-            <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="sets.html">Sets</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="cards.html" aria-current="page">Cards</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Watchlist</a>
-            </li>
-            <li class="nav-item">
-              <a class="btn btn-dark ms-lg-2" href="#">Sign In</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
+  <li class="nav-item">
+    <a class="nav-link" href="#">
+      <i class="fa-solid fa-star me-1"></i> Watchlist
+    </a>
+  </li>
+
+  <li class="nav-item">
+    <a class="btn btn-dark ms-lg-2" href="#">
+      <i class="fa-solid fa-user me-1"></i> Sign In
+    </a>
+  </li>
+</ul>
+  </div>
+</nav>
     </div>
   </header>
 
   <main id="main-content">
-
-    <section class="hero-section py-5 py-lg-6 text-center">
-      <div class="container">
-        <h1 class="display-5 fw-bold mb-3">Browse Pokémon Cards</h1>
-
-        <p class="lead text-secondary mb-4 mx-auto hero-text">
-          Search, filter and explore Pokémon card market prices.
-        </p>
-
-        <div class="d-flex justify-content-center flex-wrap gap-2">
-          <a href="sets.html" class="btn btn-dark btn-lg">View Sets</a>
-          <a href="index.html" class="btn btn-outline-dark btn-lg">Back Home</a>
-        </div>
-      </div>
-    </section>
 
     <section class="py-4 bg-white border-top border-bottom">
       <div class="container">
@@ -168,11 +176,51 @@
 
   </main>
 
-  <footer class="py-4 bg-white border-top">
-    <div class="container">
-      <p class="mb-0 text-secondary">&copy; 2026 PokeMarket</p>
+<!-- Footer -->
+<footer class="py-5 bg-white border-top">
+  <div class="container">
+
+    <div class="row g-4">
+
+      <!-- Brand / description -->
+      <div class="col-md-6">
+        <h5 class="fw-bold mb-2">PokéMarket</h5>
+        <p class="text-secondary mb-0">
+          Track Pokémon card prices, explore sets, and stay up to date with the market.
+        </p>
+      </div>
+
+      <!-- Navigation links -->
+      <div class="col-6 col-md-3">
+        <h6 class="fw-semibold mb-3">Browse</h6>
+        <ul class="list-unstyled mb-0">
+          <li><a href="cards.html" class="link-secondary text-decoration-none">Cards</a></li>
+          <li><a href="sets.html" class="link-secondary text-decoration-none">Sets</a></li>
+        </ul>
+      </div>
+
+      <!-- Account links -->
+      <div class="col-6 col-md-3">
+        <h6 class="fw-semibold mb-3">Account</h6>
+        <ul class="list-unstyled mb-0">
+          <li><a href="#" class="link-secondary text-decoration-none">Sign In</a></li>
+          <li><a href="#" class="link-secondary text-decoration-none">Register</a></li>
+          <li><a href="#" class="link-secondary text-decoration-none">Watchlist</a></li>
+        </ul>
+      </div>
+
     </div>
-  </footer>
+
+    <!-- Bottom -->
+    <div class="text-center mt-4 pt-3">
+      <p class="mb-0 text-secondary">
+        &copy; 2026 PokéMarket
+      </p>
+    </div>
+
+  </div>
+</footer>
+
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
   <script src="cards.js"></script>
