@@ -6,7 +6,7 @@
   --pokemon-bg: #f8fbff;          /* page background */
   --pokemon-surface: #fdfefe;     /* cards and panels slightly off-white */
   --pokemon-text: #1f2933;
-  --pokemon-border: rgba(227, 53, 13, 0.18);
+--pokemon-border: rgba(0, 0, 0, 0.08);
   --neutral-border: #ced4da;
 }
 
@@ -76,6 +76,7 @@ body {
   color: var(--pokemon-red) !important;
   font-weight: 700;
 }
+
 
 /* Buttons */
 .btn-dark {
