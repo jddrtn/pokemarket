@@ -196,4 +196,46 @@ async function init() {
   fetchCards();
 }
 
+// Move to previous cards page
+prevCardsButton.addEventListener('click', () => {
+  if (currentCardPage > 1) {
+    currentCardPage--;
+    fetchCards();
+  }
+});
+
+// Move to next cards page
+nextCardsButton.addEventListener('click', () => {
+  if (currentCardPage < totalCardPages) {
+    currentCardPage++;
+    fetchCards();
+  }
+});
+
+// Search cards after user stops typing
+cardSearchInput.addEventListener('input', () => {
+  clearTimeout(cardSearchTimeout);
+
+  cardSearchTimeout = setTimeout(() => {
+    currentCardPage = 1;
+    fetchCards();
+  }, 400);
+});
+
+// Filter cards by set after user stops typing
+cardSetFilterInput.addEventListener('input', () => {
+  clearTimeout(cardSearchTimeout);
+
+  cardSearchTimeout = setTimeout(() => {
+    currentCardPage = 1;
+    fetchCards();
+  }, 400);
+});
+
+// Sort cards when dropdown changes
+cardSortSelect.addEventListener('change', () => {
+  currentCardPage = 1;
+  fetchCards();
+});
+
 init();
