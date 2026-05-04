@@ -1,5 +1,6 @@
 // Main SCSS file 
-
+// Run npx sass scss/main.scss css/styles.css --watch before making changes to compile SCSS to CSS
+// Then run npx sass scss/main.scss css/styles.css --style=compressed to minify CSS
 @use "abstracts/variables";
 
 @use "base/base";
