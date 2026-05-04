@@ -31,7 +31,7 @@ const usdButton = document.getElementById('currency-usd');
 const cardSearchButton = document.getElementById('card-search-button');
 const cardSetFilterButton = document.getElementById('card-set-filter-button');
 
-// Fetch exchange rate
+// Fetch exchange rate with caching
 async function fetchExchangeRate() {
   const cachedRate = getCachedData('usdToGbpRate', 1440);
 
@@ -87,6 +87,25 @@ async function fetchCards() {
     url.searchParams.set('q', queryParts.join(' '));
   }
 
+  const cacheKey = `cards-${currentCardPage}-${encodeURIComponent(cardSearchInput.value.trim())}-${encodeURIComponent(cardSetFilterInput.value.trim())}-${cardSortSelect.value}`;
+
+  const cachedCardsResult = getCachedData(cacheKey, 60);
+
+  if (cachedCardsResult) {
+    totalCardPages = Math.ceil(cachedCardsResult.totalCount / cachedCardsResult.pageSize) || 1;
+
+    renderCards(cachedCardsResult.data || []);
+
+    cardsCount.textContent = `${cachedCardsResult.totalCount} cards found`;
+    cardsPageInfo.textContent = `Page ${cachedCardsResult.page} of ${totalCardPages}`;
+
+    prevCardsButton.disabled = currentCardPage === 1;
+    nextCardsButton.disabled = currentCardPage === totalCardPages;
+
+    cardsLoading.classList.add('d-none');
+    return;
+  }
+
   try {
     const response = await fetch(url);
 
@@ -95,6 +114,8 @@ async function fetchCards() {
     }
 
     const result = await response.json();
+
+    setCachedData(cacheKey, result);
 
     totalCardPages = Math.ceil(result.totalCount / result.pageSize) || 1;
 

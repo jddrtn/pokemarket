@@ -12,13 +12,13 @@ const setsLoading = document.getElementById('sets-loading');
 const setsError = document.getElementById('sets-error');
 const setsCount = document.getElementById('sets-count');
 const setsPageInfo = document.getElementById('sets-page-info');
+
 const prevSetsButton = document.getElementById('prev-sets');
 const nextSetsButton = document.getElementById('next-sets');
+
 const setSearchInput = document.getElementById('set-search');
 const setSortSelect = document.getElementById('set-sort');
 const setSearchButton = document.getElementById('set-search-button');
-
-
 
 // Fetch sets from API
 async function fetchSets() {
@@ -35,14 +35,33 @@ async function fetchSets() {
   url.searchParams.set('pageSize', setPageSize);
   url.searchParams.set('orderBy', sortValue);
 
-if (searchValue) {
-  const safeSearchValue = searchValue.replace(/"/g, '\\"');
+  if (searchValue) {
+    const safeSearchValue = searchValue.replace(/"/g, '\\"');
 
-  url.searchParams.set(
-    'q',
-    `(name:"${safeSearchValue}" OR series:"${safeSearchValue}")`
-  );
-}
+    url.searchParams.set(
+      'q',
+      `(name:"${safeSearchValue}" OR series:"${safeSearchValue}")`
+    );
+  }
+
+  const cacheKey = `sets-${currentSetPage}-${encodeURIComponent(searchValue)}-${sortValue}`;
+
+  const cachedSetsResult = getCachedData(cacheKey, 60);
+
+  if (cachedSetsResult) {
+    totalSetPages = Math.ceil(cachedSetsResult.totalCount / cachedSetsResult.pageSize) || 1;
+
+    renderSets(cachedSetsResult.data || []);
+
+    setsCount.textContent = `${cachedSetsResult.totalCount} set${cachedSetsResult.totalCount === 1 ? '' : 's'} found`;
+    setsPageInfo.textContent = `Page ${cachedSetsResult.page} of ${totalSetPages}`;
+
+    prevSetsButton.disabled = currentSetPage === 1;
+    nextSetsButton.disabled = currentSetPage === totalSetPages;
+
+    setsLoading.classList.add('d-none');
+    return;
+  }
 
   try {
     const response = await fetch(url);
@@ -52,9 +71,12 @@ if (searchValue) {
     }
 
     const result = await response.json();
+
+    setCachedData(cacheKey, result);
+
     const sets = result.data || [];
 
-    totalSetPages = Math.ceil(result.totalCount / result.pageSize);
+    totalSetPages = Math.ceil(result.totalCount / result.pageSize) || 1;
 
     renderSets(sets);
 
@@ -160,6 +182,20 @@ nextSetsButton.addEventListener('click', () => {
   }
 });
 
+// Search sets when button is clicked
+setSearchButton.addEventListener('click', () => {
+  currentSetPage = 1;
+  fetchSets();
+});
+
+// Search sets when Enter is pressed
+setSearchInput.addEventListener('keydown', event => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    currentSetPage = 1;
+    fetchSets();
+  }
+});
 
 // Sort sets
 setSortSelect.addEventListener('change', () => {
@@ -184,21 +220,6 @@ function setupNavbarSearch() {
       : 'cards.html';
   });
 }
-
-// Search when button is clicked
-setSearchButton.addEventListener('click', () => {
-  currentSetPage = 1;
-  fetchSets();
-});
-
-// Search when Enter is pressed
-setSearchInput.addEventListener('keydown', event => {
-  if (event.key === 'Enter') {
-    event.preventDefault();
-    currentSetPage = 1;
-    fetchSets();
-  }
-});
 
 // Initialise sets page
 setupNavbarSearch();
