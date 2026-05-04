@@ -14,6 +14,13 @@ const cardDetail = document.getElementById('card-detail');
 
 // Fetch live exchange rate
 async function fetchExchangeRate() {
+  const cachedRate = getCachedData('usdToGbpRate', 1440);
+
+  if (cachedRate) {
+    usdToGbpRate = cachedRate;
+    return;
+  }
+
   try {
     const response = await fetch(EXCHANGE_RATE_API_URL);
 
@@ -25,6 +32,7 @@ async function fetchExchangeRate() {
 
     if (result.rates && typeof result.rates.GBP === 'number') {
       usdToGbpRate = result.rates.GBP;
+      setCachedData('usdToGbpRate', usdToGbpRate);
     }
   } catch (error) {
     console.error('Using fallback exchange rate:', error);

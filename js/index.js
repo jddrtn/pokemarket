@@ -1,7 +1,7 @@
 // API endpoints
 const FEATURED_CARDS_API_URL = 'https://api.pokemontcg.io/v2/cards';
-const EXCHANGE_RATE_API_URL = 'https://api.frankfurter.dev/v2/rates?base=USD&quotes=GBP';
 const SETS_API_URL = 'https://api.pokemontcg.io/v2/sets';
+const EXCHANGE_RATE_API_URL = 'https://api.frankfurter.dev/v2/rates?base=USD&quotes=GBP';
 
 // DOM elements
 const featuredLoading = document.getElementById('trending-loading');
@@ -24,8 +24,18 @@ let usdToGbpRate = 0.79;
 // Query for featured cards
 const featuredQuery = '(name:Charizard OR name:Pikachu OR name:Mewtwo OR name:Eevee OR name:Gengar OR name:Rayquaza OR name:Lugia OR name:Umbreon)';
 
-// Fetch USD → GBP exchange rate
+// Fetch USD → GBP exchange rate with caching
 async function fetchExchangeRate() {
+  // Try to get cached exchange rate first.
+  // The exchange rate does not need to be fetched every page load,
+  // so it is cached for 24 hours to reduce API requests.
+  const cachedRate = getCachedData('usdToGbpRate', 1440);
+
+  if (cachedRate) {
+    usdToGbpRate = cachedRate;
+    return;
+  }
+
   try {
     const response = await fetch(EXCHANGE_RATE_API_URL);
 
@@ -37,8 +47,12 @@ async function fetchExchangeRate() {
 
     if (result.rates && typeof result.rates.GBP === 'number') {
       usdToGbpRate = result.rates.GBP;
+
+      // Store the exchange rate so other pages can reuse it.
+      setCachedData('usdToGbpRate', usdToGbpRate);
     }
   } catch (error) {
+    // If the exchange rate API fails, the fallback value is used.
     console.error('Using fallback exchange rate:', error);
   }
 }
@@ -49,6 +63,16 @@ async function fetchFeaturedCards() {
     featuredLoading.classList.remove('d-none');
     featuredError.classList.add('d-none');
     featuredCarousel.classList.add('d-none');
+
+    // Try to load featured cards from cache first.
+    // This makes the homepage faster when users revisit or refresh it.
+    const cachedFeaturedCards = getCachedData('featuredCards', 60);
+
+    if (cachedFeaturedCards) {
+      featuredCards = cachedFeaturedCards;
+      renderFeaturedCards();
+      return;
+    }
 
     const url = new URL(FEATURED_CARDS_API_URL);
 
@@ -66,10 +90,13 @@ async function fetchFeaturedCards() {
 
     const result = await response.json();
 
-    // Keep only cards with price data and limit to 8
+    // Keep only cards with price data and limit to 8.
     featuredCards = (result.data || [])
       .filter(card => hasPriceData(card.tcgplayer))
       .slice(0, 8);
+
+    // Cache featured cards for 60 minutes to reduce repeated API requests.
+    setCachedData('featuredCards', featuredCards);
 
     renderFeaturedCards();
 
@@ -156,7 +183,7 @@ function getVisibleCardCount() {
   return 4;
 }
 
-// Create HTML for a single card
+// Create HTML for a single featured card
 function createFeaturedCardHtml(card) {
   const price = getMarketPrice(card.tcgplayer);
 
@@ -219,44 +246,14 @@ function formatCurrency(value, currency) {
   ).format(value);
 }
 
-// Navbar search redirects to cards page
-function setupNavbarSearch() {
-  const form = document.querySelector('.nav-search-form');
-  const input = document.getElementById('card-search');
-
-  if (!form || !input) return;
-
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-
-    const value = input.value.trim();
-
-    window.location.href = value
-      ? `cards.html?search=${encodeURIComponent(value)}`
-      : 'cards.html';
-  });
-}
-
-// Initialise homepage
-async function initHomePage() {
-  setupNavbarSearch();
-
-  await fetchExchangeRate();
-  await fetchFeaturedCards();
-
-  fetchRecentSets();
-  fetchVintageSets();
-}
-
-initHomePage();
-
 // Fetch the 3 newest Pokémon TCG sets
 async function fetchRecentSets() {
   await fetchHomeSets({
     gridId: 'recent-sets-grid',
     loadingId: 'recent-sets-loading',
     errorId: 'recent-sets-error',
-    orderBy: '-releaseDate'
+    orderBy: '-releaseDate',
+    cacheMinutes: 60
   });
 }
 
@@ -266,7 +263,8 @@ async function fetchVintageSets() {
     gridId: 'vintage-sets-grid',
     loadingId: 'vintage-sets-loading',
     errorId: 'vintage-sets-error',
-    orderBy: 'releaseDate'
+    orderBy: 'releaseDate',
+    cacheMinutes: 1440
   });
 }
 
@@ -281,6 +279,18 @@ async function fetchHomeSets(config) {
     error.classList.add('d-none');
     grid.innerHTML = '';
 
+    // Create a unique cache key from the sort order.
+    // This keeps recent sets and vintage sets stored separately.
+    const cacheKey = `homeSets-${config.orderBy}`;
+
+    // Try cached data first to avoid making the same API request repeatedly.
+    const cachedSets = getCachedData(cacheKey, config.cacheMinutes);
+
+    if (cachedSets) {
+      renderHomeSets(grid, cachedSets);
+      return;
+    }
+
     const url = new URL(SETS_API_URL);
 
     url.searchParams.set('page', 1);
@@ -294,8 +304,12 @@ async function fetchHomeSets(config) {
     }
 
     const result = await response.json();
+    const sets = result.data || [];
 
-    renderHomeSets(grid, result.data || []);
+    // Save the API result so it can be reused on future page loads.
+    setCachedData(cacheKey, sets);
+
+    renderHomeSets(grid, sets);
   } catch (errorMessage) {
     console.error(errorMessage);
     error.classList.remove('d-none');
@@ -368,6 +382,35 @@ function formatSetDate(dateString) {
     month: 'long',
     year: 'numeric'
   });
+}
+
+// Navbar search redirects to cards page
+function setupNavbarSearch() {
+  const form = document.querySelector('.nav-search-form');
+  const input = document.getElementById('card-search');
+
+  if (!form || !input) return;
+
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+
+    const value = input.value.trim();
+
+    window.location.href = value
+      ? `cards.html?search=${encodeURIComponent(value)}`
+      : 'cards.html';
+  });
+}
+
+// Initialise homepage
+async function initHomePage() {
+  setupNavbarSearch();
+
+  await fetchExchangeRate();
+  await fetchFeaturedCards();
+
+  fetchRecentSets();
+  fetchVintageSets();
 }
 
 initHomePage();
