@@ -1,0 +1,24 @@
+// Primary button override
+.btn-dark {
+  background-color: var(--pokemon-red);
+  border-color: var(--pokemon-red);
+
+  &:hover,
+  &:focus {
+    background-color: var(--pokemon-dark-red);
+    border-color: var(--pokemon-dark-red);
+  }
+}
+
+// Outline button override
+.btn-outline-dark {
+  color: var(--pokemon-red);
+  border-color: var(--pokemon-red);
+
+  &:hover,
+  &:focus {
+    background-color: var(--pokemon-red);
+    border-color: var(--pokemon-red);
+    color: #ffffff;
+  }
+}

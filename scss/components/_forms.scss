@@ -1,0 +1,12 @@
+// Form controls
+.form-control,
+.form-select {
+  border-radius: 0.9rem;
+  border-color: var(--pokemon-border);
+  background-color: var(--pokemon-surface);
+
+  &:focus {
+    border-color: var(--neutral-border);
+    box-shadow: none;
+  }
+}

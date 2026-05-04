@@ -1,0 +1,24 @@
+{
+  "name": "pokemarket",
+  "version": "1.0.0",
+  "description": "PokeMarket is a web application being developed as part of an Advanced Web Development module at university. The application fetches real-time Pokémon card data from a third-party API and displays current market prices.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jddrtn/pokemarket.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jddrtn/pokemarket/issues"
+  },
+  "homepage": "https://github.com/jddrtn/pokemarket#readme",
+  "devDependencies": {
+    "sass": "^1.99.0"
+  }
+}

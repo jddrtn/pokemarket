@@ -1,0 +1,21 @@
+// Set symbol image
+.set-symbol {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+// Set logo wrapper
+.set-logo-wrap {
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+}
+
+// Set logo image
+.set-logo {
+  max-height: 80px;
+  width: auto;
+  object-fit: contain;
+}

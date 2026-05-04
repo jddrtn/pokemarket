@@ -1,0 +1,43 @@
+// Navbar brand
+.navbar-brand {
+  color: var(--pokemon-red);
+
+  &:hover {
+    color: var(--pokemon-dark-red);
+  }
+}
+
+// Navbar search
+.nav-search-form {
+  max-width: 520px;
+
+  .form-control {
+    min-height: 42px;
+    border-color: var(--neutral-border);
+
+    &:focus {
+      border-color: var(--neutral-border);
+      box-shadow: none;
+    }
+  }
+
+  .btn {
+    border-radius: 0 0.9rem 0.9rem 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .nav-search-form {
+    max-width: none;
+  }
+}
+
+// Navigation links
+.nav-link {
+  font-weight: 500;
+
+  &.active {
+    color: var(--pokemon-red) !important;
+    font-weight: 700;
+  }
+}

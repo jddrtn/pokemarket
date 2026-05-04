@@ -1,0 +1,12 @@
+// Body styling
+body {
+  background-color: var(--pokemon-bg);
+  color: var(--pokemon-text);
+  font-family: 'Nunito', sans-serif;
+}
+
+// Extra spacing for hero
+.py-lg-6 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}

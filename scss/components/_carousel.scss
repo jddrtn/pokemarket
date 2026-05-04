@@ -1,0 +1,71 @@
+// Carousel wrapper
+.featured-carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+  padding: 0 3.5rem;
+}
+
+// Carousel track
+.featured-carousel-track {
+  display: flex;
+  gap: 1.5rem;
+  overflow: visible;
+  transition: transform 0.35s ease;
+}
+
+// Carousel item
+.featured-card-item {
+  flex: 0 0 calc(25% - 1.125rem);
+}
+
+// Carousel buttons
+.featured-carousel-btn {
+  position: absolute;
+  top: 50%;
+  z-index: 30;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--pokemon-red);
+  color: #ffffff;
+  font-size: 1.25rem;
+  box-shadow: none;
+  transform: translateY(-50%);
+  transition: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: var(--pokemon-red);
+    color: #ffffff;
+    transform: translateY(-50%);
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+// Carousel button positions
+#featured-prev {
+  left: 0.25rem;
+}
+
+#featured-next {
+  right: 0.25rem;
+}
+
+@media (max-width: 991.98px) {
+  .featured-card-item {
+    flex: 0 0 calc(50% - 0.75rem);
+  }
+}
+
+@media (max-width: 575.98px) {
+  .featured-carousel-wrapper {
+    padding: 0 3rem;
+  }
+
+  .featured-card-item {
+    flex: 0 0 100%;
+  }
+}

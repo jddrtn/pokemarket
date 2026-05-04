@@ -1,0 +1,43 @@
+// General card surfaces
+.card,
+.set-card,
+.set-result-card {
+  background-color: var(--pokemon-surface);
+}
+
+// Image placeholders
+.card-image-placeholder {
+  height: 250px;
+  background-color: var(--pokemon-surface);
+  border-bottom: 1px solid var(--pokemon-border);
+}
+
+// Card images
+.pokemon-card-image {
+  width: 100%;
+  height: 320px;
+  object-fit: contain;
+  background-color: var(--pokemon-surface);
+  padding: 1rem;
+  border-bottom: 1px solid var(--pokemon-border);
+}
+
+// Card hover effect
+.card-link-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0.75rem 1.5rem rgba(227, 53, 13, 0.16);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .card-image-placeholder {
+    height: 220px;
+  }
+
+  .pokemon-card-image {
+    height: 280px;
+  }
+}

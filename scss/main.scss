@@ -1,0 +1,17 @@
+// Main SCSS file 
+
+@use "abstracts/variables";
+
+@use "base/base";
+
+@use "layout/navbar";
+@use "layout/footer";
+
+@use "components/buttons";
+@use "components/cards";
+@use "components/carousel";
+@use "components/forms";
+@use "components/sets";
+
+@use "pages/home";
+@use "pages/card-detail";
