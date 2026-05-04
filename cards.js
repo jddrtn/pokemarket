@@ -28,26 +28,29 @@ const cardSortSelect = document.getElementById('card-sort');
 const gbpButton = document.getElementById('currency-gbp');
 const usdButton = document.getElementById('currency-usd');
 
-let cardSearchTimeout;
+const cardSearchButton = document.getElementById('card-search-button');
+const cardSetFilterButton = document.getElementById('card-set-filter-button');
 
 // Fetch exchange rate
 async function fetchExchangeRate() {
   try {
     const response = await fetch(EXCHANGE_RATE_API_URL);
 
-    if (!response.ok) throw new Error();
+    if (!response.ok) {
+      throw new Error('Failed to fetch exchange rate');
+    }
 
     const result = await response.json();
 
-    if (result.rates?.GBP) {
+    if (result.rates && typeof result.rates.GBP === 'number') {
       usdToGbpRate = result.rates.GBP;
     }
-  } catch {
-    console.error('Using fallback exchange rate');
+  } catch (error) {
+    console.error('Using fallback exchange rate:', error);
   }
 }
 
-// Fetch cards
+// Fetch cards from API
 async function fetchCards() {
   cardsLoading.classList.remove('d-none');
   cardsError.classList.add('d-none');
@@ -56,11 +59,13 @@ async function fetchCards() {
   const queryParts = [];
 
   if (cardSearchInput.value.trim()) {
-    queryParts.push(`name:*${cardSearchInput.value.trim()}*`);
+    const safeCardSearch = cardSearchInput.value.trim().replace(/"/g, '\\"');
+    queryParts.push(`name:"${safeCardSearch}"`);
   }
 
   if (cardSetFilterInput.value.trim()) {
-    queryParts.push(`set.name:*${cardSetFilterInput.value.trim()}*`);
+    const safeSetSearch = cardSetFilterInput.value.trim().replace(/"/g, '\\"');
+    queryParts.push(`set.name:"${safeSetSearch}"`);
   }
 
   const url = new URL(CARDS_API_URL);
@@ -77,11 +82,13 @@ async function fetchCards() {
   try {
     const response = await fetch(url);
 
-    if (!response.ok) throw new Error();
+    if (!response.ok) {
+      throw new Error('Failed to fetch cards');
+    }
 
     const result = await response.json();
 
-    totalCardPages = Math.ceil(result.totalCount / result.pageSize);
+    totalCardPages = Math.ceil(result.totalCount / result.pageSize) || 1;
 
     renderCards(result.data || []);
 
@@ -90,8 +97,11 @@ async function fetchCards() {
 
     prevCardsButton.disabled = currentCardPage === 1;
     nextCardsButton.disabled = currentCardPage === totalCardPages;
-  } catch {
+  } catch (error) {
+    console.error(error);
     cardsError.classList.remove('d-none');
+    cardsCount.textContent = 'Could not load cards';
+    cardsPageInfo.textContent = `Page ${currentCardPage}`;
   } finally {
     cardsLoading.classList.add('d-none');
   }
@@ -99,16 +109,30 @@ async function fetchCards() {
 
 // Render cards
 function renderCards(cards) {
+  if (!cards.length) {
+    cardsGrid.innerHTML = `
+      <div class="col-12">
+        <div class="alert alert-light border text-center mb-0">
+          No cards matched your search.
+        </div>
+      </div>
+    `;
+    return;
+  }
+
   cardsGrid.innerHTML = cards.map(card => `
     <div class="col-sm-6 col-xl-3">
-      <a href="card.html?id=${card.id}" class="text-decoration-none text-dark">
+      <a href="card.html?id=${encodeURIComponent(card.id)}" class="text-decoration-none text-dark">
         <article class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-link-card">
-          <img src="${card.images?.small || ''}" class="pokemon-card-image">
+          <img
+            src="${card.images?.small || ''}"
+            alt="${card.name}"
+            class="pokemon-card-image"
+          >
 
           <div class="card-body">
-            <p class="text-secondary small mb-2">${card.set?.name || ''}</p>
+            <p class="text-secondary small mb-2">${card.set?.name || 'Unknown set'}</p>
             <h3 class="h5">${card.name}</h3>
-
             <p class="fw-bold">${getMarketPrice(card.tcgplayer)}</p>
           </div>
         </article>
@@ -119,7 +143,9 @@ function renderCards(cards) {
 
 // Convert and format price
 function getMarketPrice(tcgplayer) {
-  if (!tcgplayer?.prices) return 'Price unavailable';
+  if (!tcgplayer || !tcgplayer.prices) {
+    return 'Price unavailable';
+  }
 
   for (const group of Object.values(tcgplayer.prices)) {
     if (!group) continue;
@@ -144,35 +170,44 @@ function formatCurrency(value, currency) {
   ).format(value);
 }
 
-// Currency toggle
+// Set up currency toggle
 function setupCurrencyToggle() {
   if (!gbpButton || !usdButton) return;
 
   gbpButton.addEventListener('click', () => {
     selectedCurrency = 'GBP';
+
     gbpButton.classList.replace('btn-outline-dark', 'btn-dark');
     usdButton.classList.replace('btn-dark', 'btn-outline-dark');
+
     fetchCards();
   });
 
   usdButton.addEventListener('click', () => {
     selectedCurrency = 'USD';
+
     usdButton.classList.replace('btn-outline-dark', 'btn-dark');
     gbpButton.classList.replace('btn-dark', 'btn-outline-dark');
+
     fetchCards();
   });
 }
 
-// Navbar search
+// Navbar search redirects to cards page
 function setupNavbarSearch() {
   const form = document.querySelector('.nav-search-form');
   const input = document.getElementById('card-search');
 
   if (!form || !input) return;
 
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    window.location.href = `cards.html?search=${encodeURIComponent(input.value)}`;
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+
+    const value = input.value.trim();
+
+    window.location.href = value
+      ? `cards.html?search=${encodeURIComponent(value)}`
+      : 'cards.html';
   });
 }
 
@@ -181,61 +216,90 @@ function applySearchFromUrl() {
   const params = new URLSearchParams(window.location.search);
   const search = params.get('search');
 
-  if (search) {
+  if (search && cardSearchInput) {
     cardSearchInput.value = search;
   }
 }
 
-// Init
-async function init() {
+// Set up pagination buttons
+function setupPaginationButtons() {
+  if (prevCardsButton) {
+    prevCardsButton.addEventListener('click', () => {
+      if (currentCardPage > 1) {
+        currentCardPage--;
+        fetchCards();
+      }
+    });
+  }
+
+  if (nextCardsButton) {
+    nextCardsButton.addEventListener('click', () => {
+      if (currentCardPage < totalCardPages) {
+        currentCardPage++;
+        fetchCards();
+      }
+    });
+  }
+}
+
+// Set up search and filter buttons
+function setupSearchButtons() {
+  if (cardSearchButton) {
+    cardSearchButton.addEventListener('click', () => {
+      currentCardPage = 1;
+      fetchCards();
+    });
+  }
+
+  if (cardSetFilterButton) {
+    cardSetFilterButton.addEventListener('click', () => {
+      currentCardPage = 1;
+      fetchCards();
+    });
+  }
+
+  if (cardSearchInput) {
+    cardSearchInput.addEventListener('keydown', event => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        currentCardPage = 1;
+        fetchCards();
+      }
+    });
+  }
+
+  if (cardSetFilterInput) {
+    cardSetFilterInput.addEventListener('keydown', event => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        currentCardPage = 1;
+        fetchCards();
+      }
+    });
+  }
+}
+
+// Set up sort dropdown
+function setupSortDropdown() {
+  if (!cardSortSelect) return;
+
+  cardSortSelect.addEventListener('change', () => {
+    currentCardPage = 1;
+    fetchCards();
+  });
+}
+
+// Initialise cards page
+async function initCardsPage() {
   setupNavbarSearch();
   setupCurrencyToggle();
+  setupPaginationButtons();
+  setupSearchButtons();
+  setupSortDropdown();
   applySearchFromUrl();
 
   await fetchExchangeRate();
   fetchCards();
 }
 
-// Move to previous cards page
-prevCardsButton.addEventListener('click', () => {
-  if (currentCardPage > 1) {
-    currentCardPage--;
-    fetchCards();
-  }
-});
-
-// Move to next cards page
-nextCardsButton.addEventListener('click', () => {
-  if (currentCardPage < totalCardPages) {
-    currentCardPage++;
-    fetchCards();
-  }
-});
-
-// Search cards after user stops typing
-cardSearchInput.addEventListener('input', () => {
-  clearTimeout(cardSearchTimeout);
-
-  cardSearchTimeout = setTimeout(() => {
-    currentCardPage = 1;
-    fetchCards();
-  }, 400);
-});
-
-// Filter cards by set after user stops typing
-cardSetFilterInput.addEventListener('input', () => {
-  clearTimeout(cardSearchTimeout);
-
-  cardSearchTimeout = setTimeout(() => {
-    currentCardPage = 1;
-    fetchCards();
-  }, 400);
-});
-
-// Sort cards when dropdown changes
-cardSortSelect.addEventListener('change', () => {
-  currentCardPage = 1;
-  fetchCards();
-});
-
-init();
+initCardsPage();
