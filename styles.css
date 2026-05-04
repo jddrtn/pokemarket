@@ -175,10 +175,6 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.set-result-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 0.75rem 1.5rem rgba(227, 53, 13, 0.16);
-}
 
 /* Set symbol image */
 .set-symbol {
@@ -256,8 +252,7 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.card-link-card:hover,
-.set-result-card:hover {
+.card-link-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 0.75rem 1.5rem rgba(227, 53, 13, 0.16);
 }
