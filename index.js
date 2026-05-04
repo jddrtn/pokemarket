@@ -1,6 +1,7 @@
 // API endpoints
 const FEATURED_CARDS_API_URL = 'https://api.pokemontcg.io/v2/cards';
 const EXCHANGE_RATE_API_URL = 'https://api.frankfurter.dev/v2/rates?base=USD&quotes=GBP';
+const SETS_API_URL = 'https://api.pokemontcg.io/v2/sets';
 
 // DOM elements
 const featuredLoading = document.getElementById('trending-loading');
@@ -239,8 +240,134 @@ function setupNavbarSearch() {
 // Initialise homepage
 async function initHomePage() {
   setupNavbarSearch();
+
   await fetchExchangeRate();
   await fetchFeaturedCards();
+
+  fetchRecentSets();
+  fetchVintageSets();
+}
+
+initHomePage();
+
+// Fetch the 3 newest Pokémon TCG sets
+async function fetchRecentSets() {
+  await fetchHomeSets({
+    gridId: 'recent-sets-grid',
+    loadingId: 'recent-sets-loading',
+    errorId: 'recent-sets-error',
+    orderBy: '-releaseDate'
+  });
+}
+
+// Fetch the 3 oldest Pokémon TCG sets
+async function fetchVintageSets() {
+  await fetchHomeSets({
+    gridId: 'vintage-sets-grid',
+    loadingId: 'vintage-sets-loading',
+    errorId: 'vintage-sets-error',
+    orderBy: 'releaseDate'
+  });
+}
+
+// Shared function for loading home page set sections
+async function fetchHomeSets(config) {
+  const grid = document.getElementById(config.gridId);
+  const loading = document.getElementById(config.loadingId);
+  const error = document.getElementById(config.errorId);
+
+  try {
+    loading.classList.remove('d-none');
+    error.classList.add('d-none');
+    grid.innerHTML = '';
+
+    const url = new URL(SETS_API_URL);
+
+    url.searchParams.set('page', 1);
+    url.searchParams.set('pageSize', 3);
+    url.searchParams.set('orderBy', config.orderBy);
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch sets');
+    }
+
+    const result = await response.json();
+
+    renderHomeSets(grid, result.data || []);
+  } catch (errorMessage) {
+    console.error(errorMessage);
+    error.classList.remove('d-none');
+  } finally {
+    loading.classList.add('d-none');
+  }
+}
+
+// Render set cards on the home page
+function renderHomeSets(grid, sets) {
+  if (!sets.length) {
+    grid.innerHTML = `
+      <div class="col-12">
+        <div class="alert alert-light border text-center mb-0">
+          No sets were found.
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = sets.map(set => `
+    <div class="col-md-4">
+      <article class="set-result-card h-100 border rounded-4 p-4 shadow-sm bg-white">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <img src="${set.images?.symbol || ''}" alt="${set.name} symbol" class="set-symbol">
+
+          <div>
+            <p class="text-secondary small mb-1">${set.series || 'Unknown series'}</p>
+            <h3 class="h5 mb-0">${set.name}</h3>
+          </div>
+        </div>
+
+        <div class="set-logo-wrap mb-3">
+          <img src="${set.images?.logo || ''}" alt="${set.name} logo" class="set-logo img-fluid">
+        </div>
+
+        <dl class="row small mb-0">
+          <dt class="col-5 text-secondary">Release date</dt>
+          <dd class="col-7 mb-2">${formatSetDate(set.releaseDate)}</dd>
+
+          <dt class="col-5 text-secondary">Printed total</dt>
+          <dd class="col-7 mb-2">${set.printedTotal ?? 'N/A'}</dd>
+
+          <dt class="col-5 text-secondary">Total cards</dt>
+          <dd class="col-7 mb-0">${set.total ?? 'N/A'}</dd>
+        </dl>
+      </article>
+    </div>
+  `).join('');
+}
+
+// Format set release dates for UK display
+function formatSetDate(dateString) {
+  if (!dateString) {
+    return 'Unknown';
+  }
+
+  const parts = dateString.split('/');
+
+  if (parts.length !== 3) {
+    return dateString;
+  }
+
+  const [year, month, day] = parts;
+  const date = new Date(`${year}-${month}-${day}`);
+
+  return date.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
 }
 
 initHomePage();
