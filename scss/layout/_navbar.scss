@@ -1,4 +1,4 @@
-// Make the whole navbar area black, not just the inner container
+// Navbar background
 header,
 .navbar,
 .navbar .container,
@@ -23,11 +23,11 @@ header,
 
   &:hover,
   &:focus {
-    color: #ffb3b3 !important;
+    color: var(--pokemon-red) !important;
   }
 
   &.active {
-    color: var(--pokemon-white) !important;
+    color: var(--pokemon-red) !important;
     font-weight: 700;
   }
 }

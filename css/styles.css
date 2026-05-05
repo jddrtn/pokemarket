@@ -47,10 +47,10 @@ header,
   font-weight: 500;
 }
 .nav-link:hover, .nav-link:focus {
-  color: #ffb3b3 !important;
+  color: var(--pokemon-red) !important;
 }
 .nav-link.active {
-  color: var(--pokemon-white) !important;
+  color: var(--pokemon-red) !important;
   font-weight: 700;
 }
 
@@ -256,10 +256,6 @@ footer a:hover, footer a:focus {
   max-height: 80px;
   width: auto;
   object-fit: contain;
-}
-
-.hero-section {
-  background-color: var(--pokemon-surface);
 }
 
 .hero-text {
