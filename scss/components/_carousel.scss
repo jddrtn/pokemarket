@@ -37,8 +37,8 @@
   &:hover,
   &:focus,
   &:active {
-    background-color: var(--pokemon-red);
-    color: #ffffff;
+    background-color: var(--pokemon-red-dark);
+    color: var(--pokemon-white);
     transform: translateY(-50%);
     outline: none;
     box-shadow: none;

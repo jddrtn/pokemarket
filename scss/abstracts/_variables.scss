@@ -1,11 +1,31 @@
-// Theme colours
 :root {
-  --pokemon-yellow: #ffcb05;
-  --pokemon-red: #e3350d;
-  --pokemon-dark-red: #b92b0a;
-  --pokemon-bg: #f8fbff;
-  --pokemon-surface: #fdfefe;
-  --pokemon-text: #1f2933;
-  --pokemon-border: rgba(0, 0, 0, 0.08);
-  --neutral-border: #ced4da;
+  // Brand colours
+  --pokemon-red: #cc0000;
+  --pokemon-red-dark: #990000;
+  --pokemon-black: #111111;
+  --pokemon-white: #ffffff;
+
+  // Main UI colours
+  --pokemon-bg: #f5f5f5;
+  --pokemon-surface: #ffffff;
+  --pokemon-surface-soft: #fff5f5;
+
+  // Text
+  --pokemon-text: #111111;
+  --pokemon-muted-text: #5f6b7a;
+
+  // Borders
+  --pokemon-border: rgba(17, 17, 17, 0.12);
+  --neutral-border: #cbd5e1;
+
+  // Main interactive colour
+  --pokemon-primary: var(--pokemon-red);
+  --pokemon-primary-hover: var(--pokemon-red-dark);
+
+  // Layout colours
+  --navbar-bg: var(--pokemon-black);
+  --footer-bg: var(--pokemon-black);
+
+  // Accent colour
+  --pokemon-accent: var(--pokemon-red);
 }

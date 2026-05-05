@@ -1,1 +1,23 @@
-// Footer styles go here later
+footer {
+  background-color: var(--footer-bg);
+  color: var(--pokemon-white);
+}
+
+footer h5,
+footer h6,
+footer p,
+footer li,
+footer small {
+  color: var(--pokemon-white);
+}
+
+footer a {
+  color: var(--pokemon-white);
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+  &:hover,
+  &:focus {
+    color: #ffb3b3;
+  }
+}

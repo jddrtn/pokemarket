@@ -1,24 +1,22 @@
-// Primary button override
 .btn-dark {
-  background-color: var(--pokemon-red);
-  border-color: var(--pokemon-red);
+  background-color: var(--pokemon-primary);
+  border-color: var(--pokemon-primary);
 
   &:hover,
   &:focus {
-    background-color: var(--pokemon-dark-red);
-    border-color: var(--pokemon-dark-red);
+    background-color: var(--pokemon-primary-hover);
+    border-color: var(--pokemon-primary-hover);
   }
 }
 
-// Outline button override
 .btn-outline-dark {
-  color: var(--pokemon-red);
-  border-color: var(--pokemon-red);
+  color: var(--pokemon-primary);
+  border-color: var(--pokemon-primary);
 
   &:hover,
   &:focus {
-    background-color: var(--pokemon-red);
-    border-color: var(--pokemon-red);
+    background-color: var(--pokemon-primary);
+    border-color: var(--pokemon-primary);
     color: #ffffff;
   }
 }

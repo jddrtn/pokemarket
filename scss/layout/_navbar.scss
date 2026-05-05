@@ -1,10 +1,41 @@
+// Make the whole navbar area black, not just the inner container
+header,
+.navbar,
+.navbar .container,
+.navbar .container-fluid {
+  background-color: var(--navbar-bg);
+}
+
 // Navbar brand
 .navbar-brand {
-  color: var(--pokemon-red);
+  color: var(--pokemon-white) !important;
 
-  &:hover {
-    color: var(--pokemon-dark-red);
+  &:hover,
+  &:focus {
+    color: var(--pokemon-white) !important;
   }
+}
+
+// Navbar links
+.nav-link {
+  color: var(--pokemon-white) !important;
+  font-weight: 500;
+
+  &:hover,
+  &:focus {
+    color: #ffb3b3 !important;
+  }
+
+  &.active {
+    color: var(--pokemon-white) !important;
+    font-weight: 700;
+  }
+}
+
+// Navbar icons
+.nav-link i,
+.navbar-brand i {
+  color: inherit;
 }
 
 // Navbar search
@@ -14,30 +45,31 @@
   .form-control {
     min-height: 42px;
     border-color: var(--neutral-border);
+    border-radius: 0.9rem 0 0 0.9rem;
 
     &:focus {
-      border-color: var(--neutral-border);
-      box-shadow: none;
+      border-color: var(--pokemon-red);
+      box-shadow: 0 0 0 0.15rem rgba(204, 0, 0, 0.18);
     }
   }
 
   .btn {
+    background-color: var(--pokemon-red);
+    border-color: var(--pokemon-red);
+    color: var(--pokemon-white);
     border-radius: 0 0.9rem 0.9rem 0;
+
+    &:hover,
+    &:focus {
+      background-color: var(--pokemon-red-dark);
+      border-color: var(--pokemon-red-dark);
+      color: var(--pokemon-white);
+    }
   }
 }
 
 @media (min-width: 992px) {
   .nav-search-form {
     max-width: none;
-  }
-}
-
-// Navigation links
-.nav-link {
-  font-weight: 500;
-
-  &.active {
-    color: var(--pokemon-red) !important;
-    font-weight: 700;
   }
 }
