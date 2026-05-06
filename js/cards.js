@@ -20,6 +20,7 @@ const cardsLoading = document.getElementById('cards-loading');
 const cardsError = document.getElementById('cards-error');
 const cardsCount = document.getElementById('cards-count');
 const cardsPageInfo = document.getElementById('cards-page-info');
+const cardsHeading = document.getElementById('cards-heading');
 
 const prevCardsButton = document.getElementById('prev-cards');
 const nextCardsButton = document.getElementById('next-cards');
@@ -58,6 +59,22 @@ async function fetchExchangeRate() {
     }
   } catch (error) {
     console.error('Using fallback exchange rate:', error);
+  }
+}
+
+// Update heading when viewing a specific set
+function updateCardsHeading(cards) {
+  if (!cardsHeading) return;
+
+  if (!selectedSetId) {
+    cardsHeading.textContent = 'All Cards';
+    return;
+  }
+
+  const setName = cards[0]?.set?.name;
+
+  if (setName) {
+    cardsHeading.textContent = `All Cards in ${setName}`;
   }
 }
 
@@ -105,6 +122,7 @@ async function fetchCards() {
     totalCardPages = Math.ceil(cachedCardsResult.totalCount / cachedCardsResult.pageSize) || 1;
 
     renderCards(cachedCardsResult.data || []);
+    updateCardsHeading(cachedCardsResult.data || []);
 
     cardsCount.textContent = `${cachedCardsResult.totalCount} cards found`;
     cardsPageInfo.textContent = `Page ${cachedCardsResult.page} of ${totalCardPages}`;
@@ -130,6 +148,7 @@ async function fetchCards() {
     totalCardPages = Math.ceil(result.totalCount / result.pageSize) || 1;
 
     renderCards(result.data || []);
+    updateCardsHeading(result.data || []);
 
     cardsCount.textContent = `${result.totalCount} cards found`;
     cardsPageInfo.textContent = `Page ${result.page} of ${totalCardPages}`;
@@ -275,16 +294,16 @@ function applyFiltersFromUrl() {
     }
 
     // Use card number order when viewing one specific set
-if (cardSortSelect) {
-  cardSortSelect.value = 'number';
+    if (cardSortSelect) {
+      cardSortSelect.value = 'number';
 
-  // Disable sort options that are not needed (newest set and oldest set) when only one set is shown
-  [...cardSortSelect.options].forEach(option => {
-    if (option.value === '-set.releaseDate' || option.value === 'set.releaseDate') {
-      option.disabled = true;
+      // Disable sort options that are not needed when only one set is shown
+      [...cardSortSelect.options].forEach(option => {
+        if (option.value === '-set.releaseDate' || option.value === 'set.releaseDate') {
+          option.disabled = true;
+        }
+      });
     }
-  });
-}
   }
 }
 
