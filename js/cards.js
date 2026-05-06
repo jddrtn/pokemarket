@@ -273,6 +273,18 @@ function applyFiltersFromUrl() {
     if (cardSetFilterButton) {
       cardSetFilterButton.disabled = true;
     }
+
+    // Use card number order when viewing one specific set
+if (cardSortSelect) {
+  cardSortSelect.value = 'number';
+
+  // Disable sort options that are not needed (newest set and oldest set) when only one set is shown
+  [...cardSortSelect.options].forEach(option => {
+    if (option.value === '-set.releaseDate' || option.value === 'set.releaseDate') {
+      option.disabled = true;
+    }
+  });
+}
   }
 }
 
