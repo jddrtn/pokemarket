@@ -3,8 +3,13 @@ footer {
   color: var(--pokemon-white);
 }
 
-footer h5,
-footer h6,
+footer h3 {
+  color: var(--pokemon-white);
+  font-size: 1.30rem; 
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
 footer p,
 footer li,
 footer small {
