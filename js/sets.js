@@ -111,7 +111,7 @@ function renderSets(sets) {
   setsGrid.innerHTML = sets.map(set => {
     return `
       <div class="col-sm-6 col-xl-4">
-        <article class="set-result-card h-100 border rounded-4 p-4 shadow-sm bg-white">
+        <article class="set-result-card h-100 border rounded-4 p-4 shadow-sm bg-white d-flex flex-column">
           <div class="d-flex align-items-center gap-3 mb-3">
             <img src="${set.images?.symbol || ''}" alt="${set.name} symbol" class="set-symbol">
 
@@ -125,19 +125,20 @@ function renderSets(sets) {
             <img src="${set.images?.logo || ''}" alt="${set.name} logo" class="set-logo img-fluid">
           </div>
 
-          <dl class="row small mb-0">
+          <dl class="row small mb-4">
             <dt class="col-5 text-secondary">Release date</dt>
             <dd class="col-7 mb-2">${formatDate(set.releaseDate)}</dd>
 
-            <dt class="col-5 text-secondary">Total cards</dt>
-            <dd class="col-7 mb-2">${set.total ?? 'N/A'}</dd>
+            <dt class="col-5 text-secondary">Printed total</dt>
+            <dd class="col-7 mb-2">${set.printedTotal ?? 'N/A'}</dd>
 
-            <dt class="col-5 text-secondary">PTCGO code</dt>
-            <dd class="col-7 mb-0">${set.ptcgoCode || 'N/A'}</dd>
-            <a href="cards.html?set=${encodeURIComponent(set.id)}" class="btn btn-dark mt-3">
-            See all cards
-            </a>
+            <dt class="col-5 text-secondary">Total cards</dt>
+            <dd class="col-7 mb-0">${set.total ?? 'N/A'}</dd>
           </dl>
+
+          <a href="cards.html?set=${encodeURIComponent(set.id)}" class="btn btn-dark mt-auto">
+            See all cards
+          </a>
         </article>
       </div>
     `;

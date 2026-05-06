@@ -333,7 +333,7 @@ function renderHomeSets(grid, sets) {
 
   grid.innerHTML = sets.map(set => `
     <div class="col-md-4">
-      <article class="set-result-card h-100 border rounded-4 p-4 shadow-sm bg-white">
+      <article class="set-result-card h-100 border rounded-4 p-4 shadow-sm bg-white d-flex flex-column">
         <div class="d-flex align-items-center gap-3 mb-3">
           <img src="${set.images?.symbol || ''}" alt="${set.name} symbol" class="set-symbol">
 
@@ -347,7 +347,7 @@ function renderHomeSets(grid, sets) {
           <img src="${set.images?.logo || ''}" alt="${set.name} logo" class="set-logo img-fluid">
         </div>
 
-        <dl class="row small mb-0">
+        <dl class="row small mb-4">
           <dt class="col-5 text-secondary">Release date</dt>
           <dd class="col-7 mb-2">${formatSetDate(set.releaseDate)}</dd>
 
@@ -357,6 +357,10 @@ function renderHomeSets(grid, sets) {
           <dt class="col-5 text-secondary">Total cards</dt>
           <dd class="col-7 mb-0">${set.total ?? 'N/A'}</dd>
         </dl>
+
+        <a href="cards.html?set=${encodeURIComponent(set.id)}" class="btn btn-dark mt-auto">
+          See all cards
+        </a>
       </article>
     </div>
   `).join('');
