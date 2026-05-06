@@ -11,6 +11,9 @@ let totalCardPages = 1;
 let selectedCurrency = 'GBP';
 let usdToGbpRate = 0.79;
 
+// Set page state
+let selectedSetId = '';
+
 // DOM elements
 const cardsGrid = document.getElementById('cards-grid');
 const cardsLoading = document.getElementById('cards-loading');
@@ -66,12 +69,19 @@ async function fetchCards() {
 
   const queryParts = [];
 
+  // Search by card name
   if (cardSearchInput.value.trim()) {
     const safeCardSearch = cardSearchInput.value.trim().replace(/"/g, '\\"');
     queryParts.push(`name:"${safeCardSearch}"`);
   }
 
-  if (cardSetFilterInput.value.trim()) {
+  // Filter by set ID from URL, e.g. cards.html?set=sv8
+  if (selectedSetId) {
+    queryParts.push(`set.id:${selectedSetId}`);
+  }
+
+  // Filter by typed set name if no set ID is being used
+  if (!selectedSetId && cardSetFilterInput.value.trim()) {
     const safeSetSearch = cardSetFilterInput.value.trim().replace(/"/g, '\\"');
     queryParts.push(`set.name:"${safeSetSearch}"`);
   }
@@ -87,7 +97,7 @@ async function fetchCards() {
     url.searchParams.set('q', queryParts.join(' '));
   }
 
-  const cacheKey = `cards-${currentCardPage}-${encodeURIComponent(cardSearchInput.value.trim())}-${encodeURIComponent(cardSetFilterInput.value.trim())}-${cardSortSelect.value}`;
+  const cacheKey = `cards-${currentCardPage}-${encodeURIComponent(cardSearchInput.value.trim())}-${encodeURIComponent(cardSetFilterInput.value.trim())}-${selectedSetId}-${cardSortSelect.value}`;
 
   const cachedCardsResult = getCachedData(cacheKey, 60);
 
@@ -240,13 +250,29 @@ function setupNavbarSearch() {
   });
 }
 
-// Apply search from URL
-function applySearchFromUrl() {
+// Apply search and set filters from URL
+function applyFiltersFromUrl() {
   const params = new URLSearchParams(window.location.search);
   const search = params.get('search');
+  const set = params.get('set');
 
   if (search && cardSearchInput) {
     cardSearchInput.value = search;
+  }
+
+  if (set) {
+    selectedSetId = set;
+
+    // Prevent confusion by disabling manual set-name filtering when using a set ID
+    if (cardSetFilterInput) {
+      cardSetFilterInput.value = '';
+      cardSetFilterInput.disabled = true;
+      cardSetFilterInput.placeholder = 'Filtered by selected set';
+    }
+
+    if (cardSetFilterButton) {
+      cardSetFilterButton.disabled = true;
+    }
   }
 }
 
@@ -325,7 +351,7 @@ async function initCardsPage() {
   setupPaginationButtons();
   setupSearchButtons();
   setupSortDropdown();
-  applySearchFromUrl();
+  applyFiltersFromUrl();
 
   await fetchExchangeRate();
   fetchCards();

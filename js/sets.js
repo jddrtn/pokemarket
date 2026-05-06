@@ -129,14 +129,14 @@ function renderSets(sets) {
             <dt class="col-5 text-secondary">Release date</dt>
             <dd class="col-7 mb-2">${formatDate(set.releaseDate)}</dd>
 
-            <dt class="col-5 text-secondary">Printed total</dt>
-            <dd class="col-7 mb-2">${set.printedTotal ?? 'N/A'}</dd>
-
             <dt class="col-5 text-secondary">Total cards</dt>
             <dd class="col-7 mb-2">${set.total ?? 'N/A'}</dd>
 
             <dt class="col-5 text-secondary">PTCGO code</dt>
             <dd class="col-7 mb-0">${set.ptcgoCode || 'N/A'}</dd>
+            <a href="cards.html?set=${encodeURIComponent(set.id)}" class="btn btn-dark mt-3">
+            See all cards
+            </a>
           </dl>
         </article>
       </div>
