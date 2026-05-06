@@ -20,5 +20,8 @@
   "homepage": "https://github.com/jddrtn/pokemarket#readme",
   "devDependencies": {
     "sass": "^1.99.0"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8"
   }
 }
