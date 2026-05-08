@@ -9,10 +9,12 @@ header,
 // Navbar brand
 .navbar-brand {
   color: var(--pokemon-white) !important;
+  text-decoration: none;
 
   &:hover,
   &:focus {
     color: var(--pokemon-white) !important;
+    text-decoration: none;
   }
 }
 
@@ -20,10 +22,12 @@ header,
 .nav-link {
   color: var(--pokemon-white) !important;
   font-weight: 500;
+  text-decoration: none;
 
   &:hover,
   &:focus {
     color: var(--pokemon-red) !important;
+    text-decoration: none;
   }
 
   &.active {
