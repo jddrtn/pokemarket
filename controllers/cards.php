@@ -1,0 +1,3 @@
+<?php
+// Cards controller
+?>

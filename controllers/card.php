@@ -1,0 +1,3 @@
+<?php
+// Individual card controller
+?>
