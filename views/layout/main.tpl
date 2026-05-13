@@ -119,17 +119,19 @@
 
                             {if isset($smarty.session.is_loggedin)}
 
-                                <a class="btn btn-dark ms-lg-2" href="logout.php">
-                                    <i class="fa-solid fa-right-from-bracket me-1"></i>
-                                    Logout
-                                </a>
+                              
+
+                              <a class="btn btn-dark ms-lg-2" href="index.php?p=account">
+                              <i class="fa-solid fa-user me-1"></i>
+                               My Account
+                            </a>
 
                             {else}
 
-                                <a class="btn btn-dark ms-lg-2" href="index.php?p=login">
-                                    <i class="fa-solid fa-user me-1"></i>
-                                    Sign In
-                                </a>
+                             <a class="btn btn-dark ms-lg-2" href="index.php?p=login">
+                             <i class="fa-solid fa-user me-1"></i>
+                            Sign In
+                            </a>
 
                             {/if}
 

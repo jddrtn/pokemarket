@@ -19,7 +19,7 @@ if(isset($_POST['login'])) {
 
     if($result === true) {
 
-        header("Location: index.php");
+        header("Location: index.php?p=account");
         exit();
 
     } else {
