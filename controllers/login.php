@@ -1,9 +1,9 @@
 <?php
 
-
+// Creates User object
 $User = new User($Conn);
 
-
+// Stores messages
 $login_error = "";
 $register_error = "";
 $success = "";
@@ -19,7 +19,6 @@ if(isset($_POST['login'])) {
 
     if($result === true) {
 
-        // Redirects to homepage
         header("Location: index.php");
         exit();
 
@@ -30,7 +29,7 @@ if(isset($_POST['login'])) {
     }
 }
 
-// Register
+// REGISTER
 
 if(isset($_POST['register'])) {
 
@@ -62,7 +61,7 @@ if(isset($_POST['register'])) {
     }
 }
 
-
+// Sends data to Smarty
 $Smarty->assign('login_error', $login_error);
 $Smarty->assign('register_error', $register_error);
 $Smarty->assign('success', $success);

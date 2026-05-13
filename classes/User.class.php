@@ -4,16 +4,20 @@ class User {
 
     protected $Conn;
 
-  
+    // Constructor
     public function __construct($Conn) {
         $this->Conn = $Conn;
     }
 
-    // Registers new user
+    // Creates a new user account
     public function createUser($user_data) {
 
         // Checks if email already exists
-        $query = "SELECT * FROM users WHERE user_email = :email";
+        $query = "
+            SELECT *
+            FROM users
+            WHERE user_email = :email
+        ";
 
         $stmt = $this->Conn->prepare($query);
 
@@ -21,18 +25,18 @@ class User {
             'email' => $user_data['email']
         ]);
 
-        // Prevent duplicate accounts
+        // Stops duplicate accounts
         if($stmt->rowCount() > 0) {
             return "Email already exists.";
         }
 
-        // Hashes password
+        // Hashes password securely
         $secure_password = password_hash(
             $user_data['password'],
             PASSWORD_DEFAULT
         );
 
-        // Inserts user
+        // Inserts user into database
         $query = "
             INSERT INTO users
             (user_email, user_pass)
@@ -47,6 +51,7 @@ class User {
             'password' => $secure_password
         ]);
 
+        // Returns success
         if($success) {
             return true;
         }
@@ -71,7 +76,7 @@ class User {
 
         $attempt = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Verifies password
+        // Verifies hashed password
         if($attempt && password_verify($password, $attempt['user_pass'])) {
 
             $_SESSION['is_loggedin'] = true;
