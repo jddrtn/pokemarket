@@ -191,7 +191,7 @@ function renderCard(card) {
   ${window.isLoggedIn ? `
     <a
       href="index.php?p=add-watchlist&card_id=${encodeURIComponent(card.id)}"
-      class="btn btn-outline-dark"
+      class="btn btn-dark"
     >
       <i class="fa-solid fa-star me-2"></i>
       Add to Watchlist
@@ -199,7 +199,7 @@ function renderCard(card) {
   ` : `
     <a
       href="index.php?p=login"
-      class="btn btn-outline-dark"
+      class="btn btn-dark"
     >
       <i class="fa-solid fa-user me-2"></i>
       Sign in to save cards
