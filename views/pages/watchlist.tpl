@@ -1,30 +1,38 @@
 {extends file="layout/main.tpl"}
 
-{block name="content"}
+{block name="body"}
 
 <section class="py-5">
 
     <div class="container">
 
-        {if $watchlist}
+        <div class="mb-4">
+
+            <h1 class="fw-bold mb-1">
+                My Watchlist
+            </h1>
+
+            <p class="text-secondary mb-0">
+                Your saved Pokémon cards
+            </p>
+
+        </div>
+
+        {if isset($watchlist) && $watchlist|@count > 0}
 
             <div class="row g-4">
 
-                {foreach $watchlist as $item}
+                {foreach from=$watchlist item=item}
 
-                    <div class="col-md-6 col-lg-4">
+                    <div class="col-sm-6 col-lg-4">
 
                         <div class="card border-0 shadow-sm rounded-4 h-100">
 
                             <div class="card-body">
 
-                                <h5 class="card-title fw-bold mb-2">
-                                    {$item.card_name}
-                                </h5>
-
-                                <p class="text-secondary small mb-3">
-                                    Set: {$item.set_name}
-                                </p>
+                                <h2 class="h5 mb-3">
+                                    {$item.card_id}
+                                </h2>
 
                                 <div class="d-flex gap-2">
 
@@ -36,7 +44,7 @@
                                     </a>
 
                                     <a
-                                        href="index.php?p=remove-watchlist&card_id={$item.card_id}"
+                                        href="index.php?p=remove-watchlist&id={$item.watchlist_id}"
                                         class="btn btn-outline-danger"
                                     >
                                         Remove
@@ -56,25 +64,9 @@
 
         {else}
 
-            <div class="card border-0 shadow-sm rounded-4">
+            <div class="alert alert-light border">
 
-                <div class="card-body p-5 text-center">
-
-                    <i class="fa-solid fa-star fs-1 mb-3"></i>
-
-                    <h2 class="h3 fw-bold mb-2">
-                        Your watchlist is empty
-                    </h2>
-
-                    <p class="text-secondary mb-4">
-                        Start saving Pokémon cards to build your watchlist.
-                    </p>
-
-                    <a href="index.php?p=cards" class="btn btn-dark">
-                        Browse Cards
-                    </a>
-
-                </div>
+                You have not added any cards to your watchlist yet.
 
             </div>
 
