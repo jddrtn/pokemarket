@@ -182,10 +182,31 @@ function renderCard(card) {
   </div>
 </div>
 
-        <div class="d-flex flex-wrap gap-2">
-          <a href="index.php?p=cards" class="btn btn-dark">Browse More Cards</a>
- 
-        </div>
+       <div class="d-flex flex-wrap gap-2">
+
+  <a href="index.php?p=cards" class="btn btn-dark">
+    Browse More Cards
+  </a>
+
+  ${window.isLoggedIn ? `
+    <a
+      href="index.php?p=add-watchlist&card_id=${encodeURIComponent(card.id)}"
+      class="btn btn-outline-dark"
+    >
+      <i class="fa-solid fa-star me-2"></i>
+      Add to Watchlist
+    </a>
+  ` : `
+    <a
+      href="index.php?p=login"
+      class="btn btn-outline-dark"
+    >
+      <i class="fa-solid fa-user me-2"></i>
+      Sign in to save cards
+    </a>
+  `}
+
+</div>
       </div>
     </div>
   `;

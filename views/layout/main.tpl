@@ -246,7 +246,10 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
+    
+    <script>
+    window.isLoggedIn = {if isset($smarty.session.is_loggedin)}true{else}false{/if};
+    </script>
 
 </body>
 </html>
