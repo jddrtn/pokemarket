@@ -136,7 +136,7 @@ function renderSets(sets) {
             <dd class="col-7 mb-0">${set.total ?? 'N/A'}</dd>
           </dl>
 
-          <a href="cards.html?set=${encodeURIComponent(set.id)}" class="btn btn-dark mt-auto">
+          <a href="index.php?p=cards&set=${encodeURIComponent(set.id)}" class="btn btn-dark mt-auto">
             See all cards
           </a>
         </article>
@@ -216,9 +216,9 @@ function setupNavbarSearch() {
 
     const value = input.value.trim();
 
-    window.location.href = value
-      ? `cards.html?search=${encodeURIComponent(value)}`
-      : 'cards.html';
+window.location.href = value
+  ? `index.php?p=cards&search=${encodeURIComponent(value)}`
+  : 'index.php?p=cards';
   });
 }
 

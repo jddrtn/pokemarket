@@ -92,7 +92,7 @@ async function fetchCards() {
     queryParts.push(`name:"${safeCardSearch}"`);
   }
 
-  // Filter by set ID from URL, e.g. cards.html?set=sv8
+  // Filter by set ID from URL
   if (selectedSetId) {
     queryParts.push(`set.id:${selectedSetId}`);
   }
@@ -180,7 +180,7 @@ function renderCards(cards) {
 
   cardsGrid.innerHTML = cards.map(card => `
     <div class="col-sm-6 col-xl-3">
-      <a href="card.html?id=${encodeURIComponent(card.id)}" class="text-decoration-none text-dark">
+      <a href="index.php?p=card&id=${encodeURIComponent(card.id)}" class="text-decoration-none text-dark">
         <article class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-link-card">
           <img
             src="${card.images?.small || ''}"
@@ -263,9 +263,9 @@ function setupNavbarSearch() {
 
     const value = input.value.trim();
 
-    window.location.href = value
-      ? `cards.html?search=${encodeURIComponent(value)}`
-      : 'cards.html';
+   window.location.href = value
+  ? `index.php?p=cards&search=${encodeURIComponent(value)}`
+  : 'index.php?p=cards';
   });
 }
 

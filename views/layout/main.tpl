@@ -108,7 +108,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">
+                            <a class="nav-link" href="index.php?p=watchlist">
                                 <i class="fa-solid fa-star me-1"></i>
                                 Watchlist
                             </a>
@@ -218,7 +218,7 @@
                         </li>
 
                         <li>
-                            <a href="#" class="text-decoration-none">
+                            <a href="index.php?p=watchlist" class="text-decoration-none">
                                 Watchlist
                             </a>
                         </li>

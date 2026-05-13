@@ -183,10 +183,8 @@ function renderCard(card) {
 </div>
 
         <div class="d-flex flex-wrap gap-2">
-          <a href="cards.html" class="btn btn-dark">Browse More Cards</a>
-          <button class="btn btn-outline-dark" type="button" disabled>
-            Add to Watchlist
-          </button>
+          <a href="index.php?p=cards" class="btn btn-dark">Browse More Cards</a>
+ 
         </div>
       </div>
     </div>
@@ -266,9 +264,9 @@ function setupNavbarSearch() {
 
     const value = input.value.trim();
 
-    window.location.href = value
-      ? `cards.html?search=${encodeURIComponent(value)}`
-      : 'cards.html';
+   window.location.href = value
+  ? `index.php?p=cards&search=${encodeURIComponent(value)}`
+  : 'index.php?p=cards';
   });
 }
 
