@@ -207,4 +207,6 @@
 
 </section>
 
+<script src="js/cards.js"></script>
+
 {/block}

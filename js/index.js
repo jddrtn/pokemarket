@@ -139,42 +139,52 @@ function updateCarouselCards() {
     .join('');
 }
 
-// Move forward one card
-featuredNextButton.addEventListener('click', () => {
-  currentFeaturedIndex = (currentFeaturedIndex + 1) % featuredCards.length;
-  updateCarouselCards();
-});
+if (featuredNextButton && featuredPrevButton) {
 
-// Move backward one card
-featuredPrevButton.addEventListener('click', () => {
-  currentFeaturedIndex =
-    (currentFeaturedIndex - 1 + featuredCards.length) % featuredCards.length;
+  featuredNextButton.addEventListener('click', () => {
+    currentFeaturedIndex = (currentFeaturedIndex + 1) % featuredCards.length;
+    updateCarouselCards();
+  });
 
-  updateCarouselCards();
-});
+  featuredPrevButton.addEventListener('click', () => {
+    currentFeaturedIndex =
+      (currentFeaturedIndex - 1 + featuredCards.length) % featuredCards.length;
+
+    updateCarouselCards();
+  });
+
+}
 
 // Recalculate layout on resize
 window.addEventListener('resize', updateCarouselCards);
 
-// Currency toggle: GBP
-gbpButton.addEventListener('click', () => {
-  selectedCurrency = 'GBP';
+if (gbpButton && usdButton) {
 
-  gbpButton.classList.replace('btn-outline-dark', 'btn-dark');
-  usdButton.classList.replace('btn-dark', 'btn-outline-dark');
+  // Currency toggle: GBP
+  gbpButton.addEventListener('click', () => {
 
-  updateCarouselCards();
-});
+    selectedCurrency = 'GBP';
 
-// Currency toggle: USD
-usdButton.addEventListener('click', () => {
-  selectedCurrency = 'USD';
+    gbpButton.classList.replace('btn-outline-dark', 'btn-dark');
+    usdButton.classList.replace('btn-dark', 'btn-outline-dark');
 
-  usdButton.classList.replace('btn-outline-dark', 'btn-dark');
-  gbpButton.classList.replace('btn-dark', 'btn-outline-dark');
+    updateCarouselCards();
 
-  updateCarouselCards();
-});
+  });
+
+  // Currency toggle: USD
+  usdButton.addEventListener('click', () => {
+
+    selectedCurrency = 'USD';
+
+    usdButton.classList.replace('btn-outline-dark', 'btn-dark');
+    gbpButton.classList.replace('btn-dark', 'btn-outline-dark');
+
+    updateCarouselCards();
+
+  });
+
+}
 
 // Determine how many cards to show based on screen size
 function getVisibleCardCount() {

@@ -21,6 +21,9 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Shared JS -->
+    <script src="js/cache.js"></script>
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -244,9 +247,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Custom JS -->
-    <script src="js/cache.js"></script>
-    <script src="js/index.js"></script>
 
 </body>
 </html>

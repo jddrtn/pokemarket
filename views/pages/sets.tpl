@@ -146,4 +146,6 @@
 
 </section>
 
+<script src="js/sets.js"></script>
+
 {/block}

@@ -60,4 +60,5 @@
 
 </section>
 
+<script src="js/card.js"></script>
 {/block}
