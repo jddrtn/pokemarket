@@ -188,15 +188,30 @@ function renderCard(card) {
     Browse More Cards
   </a>
 
-  ${window.isLoggedIn ? `
-    <a
-      href="index.php?p=add-watchlist&card_id=${encodeURIComponent(card.id)}"
-      class="btn btn-dark"
-    >
-      <i class="fa-solid fa-star me-2"></i>
-      Add to Watchlist
-    </a>
-  ` : `
+${window.isLoggedIn ? (
+
+    window.cardSaved
+
+    ? `
+        <button
+          class="btn btn-success"
+          disabled
+        >
+          <i class="fa-solid fa-check me-2"></i>
+          Already in Watchlist
+        </button>
+      `
+
+    : `
+        <a
+          href="index.php?p=add-watchlist&card_id=${encodeURIComponent(card.id)}"
+          class="btn btn-dark"
+        >
+          <i class="fa-solid fa-star me-2"></i>
+          Add to Watchlist
+        </a>
+      `
+) : `
     <a
       href="index.php?p=login"
       class="btn btn-dark"
