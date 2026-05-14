@@ -55,21 +55,21 @@ class Watchlist {
     }
 
     // Removes card from watchlist
-    public function removeFromWatchlist($user_id, $card_id) {
+    public function removeFromWatchlist($watchlist_id, $user_id) {
 
         $query = "
             DELETE FROM watchlist
-            WHERE user_id = :user_id
-            AND card_id = :card_id
-        ";
+            WHERE watchlist_id = :watchlist_id
+            AND user_id = :user_id
+    ";
 
         $stmt = $this->Conn->prepare($query);
 
-        return $stmt->execute([
-            'user_id' => $user_id,
-            'card_id' => $card_id
-        ]);
-    }
+    return $stmt->execute([
+        'watchlist_id' => $watchlist_id,
+        'user_id' => $user_id
+    ]);
+}
 
     // Gets all saved cards for user
     public function getUserWatchlist($user_id) {
