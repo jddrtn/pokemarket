@@ -33,28 +33,51 @@ if(isset($_POST['login'])) {
 
 if(isset($_POST['register'])) {
 
+    // Trim user input
     $email = trim($_POST['register_email']);
     $password = trim($_POST['register_password']);
     $confirm_password = trim($_POST['register_password_confirm']);
 
-    // Checks passwords match
-    if($password !== $confirm_password) {
+    // Validate email format
+    if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+        $register_error = "Please enter a valid email address.";
+
+    // Minimum password length
+    } elseif(strlen($password) < 8) {
+
+    $register_error = "Password must be at least 8 characters long.";
+
+    // Password strength requirements
+    } elseif(
+    !preg_match('/[A-Z]/', $password) ||
+    !preg_match('/[0-9]/', $password) ||
+    !preg_match('/[\W]/', $password)
+    ) {
+
+    $register_error = "Password must include an uppercase letter, number, and special character.";
+
+// Check passwords match
+} elseif($password !== $confirm_password) {
 
         $register_error = "Passwords do not match.";
 
     } else {
 
+        // Attempt account creation
         $result = $User->createUser([
             'email' => $email,
             'password' => $password
         ]);
 
+        // Successful registration
         if($result === true) {
 
             $success = "Account created successfully.";
 
         } else {
 
+            // Show returned error
             $register_error = $result;
 
         }

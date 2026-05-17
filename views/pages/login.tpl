@@ -118,6 +118,7 @@
                                 </div>
                             {/if}
 
+                            <!-- Email -->
                             <div class="mb-3">
 
                                 <label for="register-email" class="form-label fw-semibold">
@@ -135,6 +136,7 @@
 
                             </div>
 
+                            <!-- Password -->
                             <div class="mb-3">
 
                                 <label for="register-password" class="form-label fw-semibold">
@@ -150,8 +152,25 @@
                                     required
                                 >
 
+                                <!-- Password requirements -->
+                                <div class="form-text mt-2">
+
+                                    Password must:
+
+                                    <ul class="mb-0 ps-3">
+
+                                        <li>Be at least 8 characters</li>
+                                        <li>Include an uppercase letter</li>
+                                        <li>Include a number</li>
+                                        <li>Include a special character</li>
+
+                                    </ul>
+
+                                </div>
+
                             </div>
 
+                            <!-- Confirm password -->
                             <div class="mb-4">
 
                                 <label for="register-password-confirm" class="form-label fw-semibold">
@@ -169,6 +188,7 @@
 
                             </div>
 
+                            <!-- Register button -->
                             <button type="submit" name="register" class="btn btn-dark w-100">
                                 Register
                             </button>
