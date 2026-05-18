@@ -11,7 +11,7 @@
             Track Pokémon card prices and discover featured cards
         </h1>
 
-        <p class="lead text-secondary mb-4 mx-auto hero-text">
+        <p class="lead mb-4 mx-auto hero-text">
             Browse market prices and keep up with card trends in one place.
         </p>
 
@@ -45,7 +45,7 @@
                     Featured Cards
                 </h2>
 
-                <p class="text-secondary mb-0">
+                <p class="mb-0">
                     Popular cards selected by PokéMarket
                 </p>
 
@@ -53,7 +53,7 @@
 
             <div class="d-flex align-items-center flex-wrap gap-2">
 
-                <span class="text-secondary small">
+                <span class="small">
                     Currency:
                 </span>
 
@@ -82,7 +82,7 @@
 
             <div class="spinner-border" role="status" aria-hidden="true"></div>
 
-            <p class="mt-3 text-secondary mb-0">
+            <p class="mt-3 mb-0">
                 Loading featured cards...
             </p>
 
@@ -147,7 +147,7 @@
                     Recent Sets
                 </h2>
 
-                <p class="text-secondary mb-0">
+                <p class="mb-0">
                     Browse newer Pokémon TCG releases
                 </p>
 
@@ -163,7 +163,7 @@
 
             <div class="spinner-border" role="status" aria-hidden="true"></div>
 
-            <p class="mt-3 text-secondary mb-0">
+            <p class="mt-3 mb-0">
                 Loading recent sets...
             </p>
 
@@ -196,8 +196,8 @@
                     Vintage Sets
                 </h2>
 
-                <p class="text-secondary mb-0">
-                    Explore some of the earliest Pokémon TCG sets
+                <p class="mb-0">
+                    Explore early Pokémon TCG sets
                 </p>
 
             </div>
@@ -212,7 +212,7 @@
 
             <div class="spinner-border" role="status" aria-hidden="true"></div>
 
-            <p class="mt-3 text-secondary mb-0">
+            <p class="mt-3 mb-0">
                 Loading vintage sets...
             </p>
 

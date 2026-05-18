@@ -204,11 +204,11 @@ function createFeaturedCardHtml(card) {
           <img src="${card.images?.small || ''}" alt="${card.name}" class="pokemon-card-image">
 
           <div class="card-body">
-            <p class="text-secondary small mb-2">${card.set?.name || 'Unknown set'}</p>
+            <p class="small mb-2">${card.set?.name || 'Unknown set'}</p>
             <h3 class="h5 card-title mb-2">${card.name}</h3>
 
-            <p class="text-secondary mb-1">${card.rarity || 'Rarity unavailable'}</p>
-            <p class="text-secondary mb-2">Card #${card.number || 'N/A'}</p>
+            <p class="mb-1">${card.rarity || 'Rarity unavailable'}</p>
+            <p class="mb-2">Card #${card.number || 'N/A'}</p>
 
             <p class="fw-bold fs-5 mb-0">${price}</p>
           </div>
@@ -348,7 +348,7 @@ function renderHomeSets(grid, sets) {
           <img src="${set.images?.symbol || ''}" alt="${set.name} symbol" class="set-symbol">
 
           <div>
-            <p class="text-secondary small mb-1">${set.series || 'Unknown series'}</p>
+            <p class="small mb-1">${set.series || 'Unknown series'}</p>
             <h3 class="h5 mb-0">${set.name}</h3>
           </div>
         </div>
@@ -358,13 +358,13 @@ function renderHomeSets(grid, sets) {
         </div>
 
         <dl class="row small mb-4">
-          <dt class="col-5 text-secondary">Release date</dt>
+          <dt class="col-5">Release date</dt>
           <dd class="col-7 mb-2">${formatSetDate(set.releaseDate)}</dd>
 
-          <dt class="col-5 text-secondary">Printed total</dt>
+          <dt class="col-5">Printed total</dt>
           <dd class="col-7 mb-2">${set.printedTotal ?? 'N/A'}</dd>
 
-          <dt class="col-5 text-secondary">Total cards</dt>
+          <dt class="col-5">Total cards</dt>
           <dd class="col-7 mb-0">${set.total ?? 'N/A'}</dd>
         </dl>
 
