@@ -68,7 +68,7 @@
                                     </a>
 
                                     <!-- Remove from watchlist button -->
-                                    <a href="index.php?p=remove-watchlist&id={$card.watchlist_id}" class="btn btn-outline-danger">
+                                    <a href="index.php?p=remove-watchlist&id={$card.watchlist_id}" class="btn btn-dark">
                                         Remove from Watchlist
                                     </a>
 
