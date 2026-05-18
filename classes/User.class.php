@@ -91,5 +91,74 @@ class User {
 
         return "Invalid email or password.";
     }
+
+
+    // Changes user password
+public function changePassword($user_id, $current_password, $new_password) {
+
+    // Get current user
+    $query = "
+        SELECT *
+        FROM users
+        WHERE user_id = :user_id
+    ";
+
+    $stmt = $this->Conn->prepare($query);
+
+    $stmt->execute([
+        'user_id' => $user_id
+    ]);
+
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // Verify current password
+    if(!$user || !password_verify($current_password, $user['user_pass'])) {
+
+        return "Current password is incorrect.";
+    }
+
+    // Password strength validation
+    if(strlen($new_password) < 8) {
+        return "Password must be at least 8 characters.";
+    }
+
+    if(!preg_match('/[A-Z]/', $new_password)) {
+        return "Password must include an uppercase letter.";
+    }
+
+    if(!preg_match('/[0-9]/', $new_password)) {
+        return "Password must include a number.";
+    }
+
+    if(!preg_match('/[\W]/', $new_password)) {
+        return "Password must include a special character.";
+    }
+
+    // Hash new password
+    $secure_password = password_hash(
+        $new_password,
+        PASSWORD_DEFAULT
+    );
+
+    // Update password
+    $query = "
+        UPDATE users
+        SET user_pass = :password
+        WHERE user_id = :user_id
+    ";
+
+    $stmt = $this->Conn->prepare($query);
+
+    $success = $stmt->execute([
+        'password' => $secure_password,
+        'user_id' => $user_id
+    ]);
+
+    if($success) {
+        return true;
+    }
+
+    return "Unable to change password.";
+}
 }
 ?>

@@ -24,3 +24,10 @@ if(file_exists($controller_path)) {
 
 // Displays Smarty template
 $Smarty->display('pages/' . $page . '.tpl');
+
+// Pages that require login
+$secure_pages = array(
+    'account',
+    'watchlist',
+    'change-password'
+);
