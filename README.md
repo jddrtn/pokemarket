@@ -1,17 +1,23 @@
-# PokeMarket
+# PokéMarket
 
-PokeMarket is a web application being developed as part of an Advanced Web Development module at university. The application fetches real-time Pokémon card data from a third-party API and displays current market prices.
+PokéMarket is a web application that I developed during my second year at university. It is designed for Pokémon card collectors to track card prices, browse cards and build personalised watchlists.
 
-Users will be able to:
-- View Pokémon cards and their market values
-- Filter cards by set, Pokémon or price range
-- Create an account and log in
-- Save cards to a personal watchlist
+The application fetches real-time Pokémon card data from the Pokémon TCG API and includes a full user authentication system that is connected to a MySQL database.
 
-## Tech Stack
+## Technologies Used
+HTML
+CSS
+SASS
+JavaScript
+PHP
+Smarty
+Bootstrap
+MySQL
+Git
 
-- HTML
-- CSS
-- JavaScript
-- PHP
-- SQL
+## APIs
+
+This project uses the following APIs to fetch Pokémon card data and convert prices between currencies:
+
+- [Pokémon TCG API](https://pokemontcg.io/)
+- [Frankfurter Exchange Rates API](https://frankfurter.dev/)
