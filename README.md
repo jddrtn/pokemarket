@@ -5,15 +5,15 @@ PokéMarket is a web application that I developed during my second year at unive
 The application fetches real-time Pokémon card data from the Pokémon TCG API and includes a full user authentication system that is connected to a MySQL database.
 
 ## Technologies Used
-HTML
-CSS
-SASS
-JavaScript
-PHP
-Smarty
-Bootstrap
-MySQL
-Git
+- HTML
+- CSS
+- SCSS
+- JavaScript
+- PHP
+- Smarty
+- Bootstrap
+- MySQL
+- Git
 
 ## APIs
 
