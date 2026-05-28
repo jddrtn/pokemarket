@@ -8,11 +8,11 @@
     <div class="container">
 
         <h1 class="display-5 fw-bold mb-3">
-            Track Pokémon card prices and discover featured cards
+            Track Pokémon card prices and discover new cards
         </h1>
 
         <p class="lead mb-4 mx-auto hero-text">
-            Browse market prices and keep up with card trends in one place.
+            Browse cards and stay up to date with market prices in one place.
         </p>
 
         <!-- CTA buttons -->
